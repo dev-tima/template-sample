@@ -5,66 +5,79 @@ export default function createQuizActivitySlide(data, slideId) {
   const choices = data.choices || [];
   const correctAnswer = data.correctAnswer || 0;
 
-  // Register quiz handler after DOM is ready (only in browser)
-  if (typeof window !== "undefined" && typeof document !== "undefined") {
-    setTimeout(() => {
-      const slide = document.getElementById(slideId);
-      if (!slide) return;
+  // Generate inline script that will execute when the HTML is inserted
+  const scriptContent = `
+    (function() {
+      console.log('Quiz script loaded for slide ${slideId}');
 
-      const choiceElements = slide.querySelectorAll(".quiz-choice");
-      let answered = false;
+      function initQuiz_${slideId}() {
+        const slide = document.getElementById('${slideId}');
+        console.log('Trying to find slide ${slideId}:', slide);
 
-      // Callback function for when an answer is selected
-      function onAnswerSelected(isCorrect, selectedChoice, correctChoice) {
-        // Give user feedback
-        if (isCorrect) {
-          alert("🎉 Correct! Great job!");
-        } else {
-          const correctText = correctChoice
-            .querySelector(".quiz-choice-text")
-            .innerText.trim();
-          alert("❌ Incorrect. The correct answer was: " + correctText);
+        if (!slide) {
+          setTimeout(initQuiz_${slideId}, 50);
+          return;
         }
 
-        // Add your additional logic here
-        // For example: track score, send analytics, unlock next slide, etc.
+        const choiceElements = slide.querySelectorAll('.quiz-choice');
+        console.log('Found', choiceElements.length, 'quiz choices');
+
+        if (choiceElements.length === 0) {
+          setTimeout(initQuiz_${slideId}, 50);
+          return;
+        }
+
+        let answered = false;
+
+        function onAnswerSelected(isCorrect, selectedChoice, correctChoice) {
+          console.log('Answer selected. Correct?', isCorrect);
+          if (isCorrect) {
+            alert('🎉 Correct! Great job!');
+          } else {
+            const correctText = correctChoice.querySelector('.quiz-choice-text').innerText.trim();
+            alert('❌ Incorrect. The correct answer was: ' + correctText);
+          }
+        }
+
+        choiceElements.forEach(function(choice) {
+          console.log('Attaching click listener to choice:', choice);
+          choice.addEventListener('click', function(event) {
+            console.log('Choice clicked!', this);
+            if (answered) return;
+
+            answered = true;
+            const isCorrect = this.dataset.correct === 'true';
+
+            choiceElements.forEach(function(c) { c.classList.add('disabled'); });
+
+            let correctChoice = null;
+            choiceElements.forEach(function(c) {
+              if (c.dataset.correct === 'true') {
+                correctChoice = c;
+              }
+            });
+
+            if (isCorrect) {
+              this.classList.add('correct', 'selected');
+            } else {
+              this.classList.add('incorrect', 'selected');
+              if (correctChoice) {
+                correctChoice.classList.add('correct');
+              }
+            }
+
+            onAnswerSelected(isCorrect, this, correctChoice);
+          });
+        });
       }
 
-      choiceElements.forEach((choice) => {
-        choice.addEventListener("click", function () {
-          if (answered) return;
-
-          answered = true;
-          const isCorrect = this.dataset.correct === "true";
-
-          // Mark all choices as disabled
-          choiceElements.forEach((c) => c.classList.add("disabled"));
-
-          // Find the correct choice
-          let correctChoice = null;
-          choiceElements.forEach((c) => {
-            if (c.dataset.correct === "true") {
-              correctChoice = c;
-            }
-          });
-
-          // Show correct/incorrect states
-          if (isCorrect) {
-            this.classList.add("correct", "selected");
-          } else {
-            this.classList.add("incorrect", "selected");
-            // Show the correct answer
-            if (correctChoice) {
-              correctChoice.classList.add("correct");
-            }
-          }
-
-          // Call the callback function
-          onAnswerSelected(isCorrect, this, correctChoice);
-        });
-      });
-    }, 100);
-  }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initQuiz_${slideId});
+      } else {
+        initQuiz_${slideId}();
+      }
+    })();
+  `;
 
   return `
     <section class="slide canva-quiz-activity-slide" id="${slideId}">
@@ -196,5 +209,6 @@ export default function createQuizActivitySlide(data, slideId) {
         }
       </style>
     </section>
+    <script>${scriptContent}</script>
   `;
 }

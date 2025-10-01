@@ -113,11 +113,27 @@ if (import.meta.env.DEV) {
 			}
 
 			const headerElement = document.querySelector("header.caption");
+
+			// Insert HTML
 			if (headerElement) {
 				headerElement.insertAdjacentHTML("afterend", slidesHtml);
 			} else {
 				slidesContainer.insertAdjacentHTML("afterbegin", slidesHtml);
 			}
+
+			// Extract and execute inline scripts (insertAdjacentHTML doesn't execute them)
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = slidesHtml;
+			const scripts = tempDiv.querySelectorAll('script');
+			scripts.forEach(script => {
+				const newScript = document.createElement('script');
+				if (script.src) {
+					newScript.src = script.src;
+				} else {
+					newScript.textContent = script.textContent;
+				}
+				document.body.appendChild(newScript);
+			});
 
 			// Dynamically load shower core for development
 			const script = document.createElement("script");
