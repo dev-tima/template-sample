@@ -1,0 +1,75 @@
+import { marked } from "marked";
+
+export default function createTitleQnASlide(data, slideId) {
+	return `
+    <section class="slide title-qna-slide" id="${slideId}">
+      <div class="tq-slide-container">
+        <div class="tq-decorations">
+          <div class="tq-question-mark tq-left">?</div>
+          <div class="tq-qna-text">Q&A</div>
+          <div class="tq-question-mark tq-right">?</div>
+        </div>
+        <div class="tq-slide-title">${marked.parse(data.title)}</div>
+      </div>
+      <style>
+        .title-qna-slide {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          line-height: 1.08;
+          position: relative;
+        }
+        .tq-slide-container {
+          width: 80%;
+          height: 84%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .tq-decorations {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 100%;
+        }
+        .tq-qna-text {
+          font-size: 400%;
+          font-weight: 700;
+          color: #FFD59E;
+          position: relative;
+          z-index: 2;
+        }
+        .tq-question-mark {
+          font-size: 600%;
+          font-weight: 700;
+          position: absolute;
+        }
+        .tq-question-mark.tq-left {
+          z-index: 0;
+          color: #B8C5E8;
+          left: 12%;
+          top: 32%;
+          transform: rotate(-15deg);
+        }
+        .tq-question-mark.tq-right {
+          z-index: 0;
+          color: #FFD59E;
+          right: 6%;
+          bottom: -220%;
+          transform: rotate(20deg);
+        }
+        .tq-slide-title {
+          text-align: center;
+          margin-top: 2%;
+          font-size: 280%;
+          font-weight: 700;
+          position: relative;
+          z-index: 2;
+        }
+      </style>
+    </section>
+  `;
+}

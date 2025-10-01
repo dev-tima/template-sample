@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Shower Presentation Engine</title>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, viewport-fit=cover"
+		/>
+		<link
+			rel="stylesheet"
+			href="node_modules/@shower/ribbon/styles/styles.css"
+		/>
+		<style>
+			.shower {
+				--slide-ratio: calc(16 / 9);
+			}
+			.slide::after {
+				display: none !important;
+				content: none !important;
+			}
+			.slide ul {
+				list-style-position: outside;
+				padding-left: 4%;
+			}
+			.slide p {
+				margin-bottom: 0px !important;
+			}
+			#print-button {
+				display: none;
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				z-index: 1000;
+				padding: 10px 15px;
+				font-family: "Helvetica Neue", sans-serif;
+				font-size: 14px;
+				color: #333;
+				background-color: #fff;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				cursor: pointer;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+				transition: all 0.2s ease-in-out;
+			}
+			#print-button:hover {
+				background-color: #f8f8f8;
+				border-color: #bbb;
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+			}
+			body.list #print-button {
+				display: block;
+			}
+			@media print {
+				#print-button {
+					display: none !important;
+				}
+			}
+
+		</style>
+	</head>
+	<body class="shower full">
+		<button id="print-button" onclick="window.print()">Print to PDF</button>
+		<header class="caption">
+			<h1></h1>
+			<p></p>
+		</header>
+
+		<!-- SLIDES_PLACEHOLDER -->
+
+		<div class="progress"></div>
+
+		<script type="module" src="app.js"></script>
+		<!-- Copyright © 3000 Yours Truly, Famous Inc. -->
+	</body>
+</html>

@@ -1,0 +1,178 @@
+{
+  "title": "Introduction to Physics - Forces and Motion",
+  "globalSettings": {
+    "ratio": "16/9",
+    "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+    "background": "#F5F5F5"
+  },
+  "slides": [
+    {
+      "type": "canva_title",
+      "data": {
+        "header": "Physics Class",
+        "title": "Forces and Motion",
+        "subtitle": "Understanding the World Around Us",
+        "footer": "Dr. Sarah Johnson"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png"
+    },
+    {
+      "type": "canva_objective",
+      "data": {
+        "title": "Today's Learning Goals",
+        "objectives": [
+          "Understand Newton's Three Laws of Motion",
+          "Learn about different types of forces in nature",
+          "Apply physics concepts to real-world examples"
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_picture_with_topic",
+      "data": {
+        "title": "What is Physics?",
+        "topic": "Physics is the science that studies matter, energy, and their interactions. It helps us understand how the universe works, from the smallest particles to the largest galaxies.",
+        "keywords": ["Matter", "Energy", "Forces"],
+        "imageUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_keyword_circle",
+      "data": {
+        "title": "Newton's Three Laws of Motion",
+        "keywords": [
+          {
+            "keyword": "First Law",
+            "description": "An object at rest stays at rest, and an object in motion stays in motion, unless acted upon by an external force."
+          },
+          {
+            "keyword": "Second Law",
+            "description": "The acceleration of an object is directly proportional to the net force acting on it. F = ma"
+          },
+          {
+            "keyword": "Third Law",
+            "description": "For every action, there is an equal and opposite reaction."
+          }
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_image_card_content",
+      "data": {
+        "title": "Types of Forces",
+        "imageUrl1": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop",
+        "subtitle1": "Gravitational Force",
+        "content1": "The force that attracts objects with mass toward each other. On Earth, gravity pulls everything toward the center with an acceleration of 9.8 m/s².",
+        "imageUrl2": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop",
+        "subtitle2": "Friction Force",
+        "content2": "The force that opposes motion between surfaces in contact. It can be static (preventing motion) or kinetic (opposing ongoing motion)."
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_content_detail",
+      "data": {
+        "title": "Real-World Applications",
+        "header": "Physics in Everyday Life",
+        "details": [
+          "Car Safety: Seatbelts and airbags use Newton's First Law to protect passengers during sudden stops",
+          "Sports: Athletes use physics principles to improve performance - projectile motion in basketball, friction in running",
+          "Technology: Smartphones, computers, and GPS systems all rely on physics principles like electromagnetism and relativity"
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_image_card_content",
+      "data": {
+        "title": "Motion Concepts",
+        "imageUrl1": "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=300&h=200&fit=crop",
+        "subtitle1": "Velocity vs Speed",
+        "content1": "Speed is how fast something moves (scalar). Velocity includes both speed and direction (vector). A car going 60 mph north has a different velocity than one going 60 mph south.",
+        "imageUrl2": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
+        "subtitle2": "Acceleration",
+        "content2": "The rate of change of velocity. When you press the gas pedal, you accelerate. When you brake, you decelerate (negative acceleration)."
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_content_detail",
+      "data": {
+        "title": "Problem-Solving Strategy",
+        "header": "How to Approach Physics Problems",
+        "details": [
+          "Identify what you know and what you need to find",
+          "Choose the appropriate physics equation or principle",
+          "Substitute known values and solve for the unknown",
+          "Check if your answer makes sense in the real world"
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_content_summary",
+      "data": {
+        "title": "Review of Today's Learning",
+        "header": "Key Physics Concepts We Covered",
+        "summarys": [
+          "Newton's Three Laws of Motion govern how objects move and interact with forces in our universe",
+          "Different types of forces (gravity, friction, electromagnetic) affect motion in various ways, and understanding these helps us explain everyday phenomena"
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_title_qna",
+      "data": {
+        "title": "Questions & Discussion Time"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_homework_square",
+      "data": {
+        "title": "Homework Assignment",
+        "homeworks": [
+          {
+            "homework": "Practice Problems",
+            "description": "Complete problems 1-10 in Chapter 4 of your textbook focusing on Newton's Laws"
+          },
+          {
+            "homework": "Real-World Examples",
+            "description": "Find 3 examples of physics in your daily life and explain which laws or principles apply"
+          },
+          {
+            "homework": "Lab Preparation",
+            "description": "Read the procedure for next week's friction experiment and answer the pre-lab questions"
+          }
+        ],
+        "footer": "Due next Monday - bring questions to class!"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
+      "type": "canva_title_end",
+      "data": {
+        "title": "Great Work Today!",
+        "subtitle": "Physics is all around us - keep observing and questioning!  \nSee you next class!",
+        "footer": "Dr. Sarah Johnson"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    }
+  ]
+}
