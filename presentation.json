@@ -174,6 +174,22 @@
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
     },
     {
+      "type": "quiz_activity",
+      "data": {
+        "title": "Quick Quiz: Test Your Knowledge!",
+        "question": "According to Newton's Second Law, what is the relationship between force, mass, and acceleration?",
+        "choices": [
+          "F = m + a",
+          "F = ma",
+          "F = m / a",
+          "F = m - a"
+        ],
+        "correctAnswer": 1
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
       "type": "canva_title_end",
       "data": {
         "title": "Great Work Today!",
