@@ -165,6 +165,15 @@
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
     },
     {
+      "type": "image_generator",
+      "data": {
+        "title": "🎨 AI Thumbnail Generator",
+        "placeholder": "Describe the game thumbnail you want to generate... (e.g., 'Space adventure game with rocket ships and planets')"
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
       "type": "canva_title_end",
       "data": {
         "title": "Great Work Today!",
