@@ -115,10 +115,7 @@ export default function createImageGeneratorSlide(data, slideId) {
             }
 
             async function generateImageFromAPI(prompt, apiUrl, gameId) {
-              const apiToken =
-                localStorage.getItem("ai_image_token") ||
-                localStorage.getItem("api_token") ||
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MzE2NTc2MjYyNDU3Nzk0NTYwIiwidHlwZSI6ImFjY2Vzc190b2tlbiIsInRva2VuRm9yIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNzU5Mjc3MzA1LCJleHAiOjE3NjE4NjkzMDV9.V10JruPUj2oZ5NU0EOSJYN9P6RVFTufTe8UZrckCH2E";
+              const apiToken = localStorage.getItem("authToken") ;
 
               if (!apiToken) {
                 throw new Error(
@@ -218,13 +215,13 @@ export default function createImageGeneratorSlide(data, slideId) {
         }
 
         .ig-icon {
-          font-size: 1.5em;
+          font-size: 1.1em;
         }
 
         .ig-title {
           text-align: center;
           margin: 0;
-          font-size: 1.2em;
+          font-size: 0.9em;
           font-weight: 700;
           color: #555;
           line-height: 1;
@@ -268,7 +265,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           padding: 20px;
           border: 2px solid #ddd;
           border-radius: 12px;
-          font-size: 1em;
+          font-size: 0.85em;
           font-family: inherit;
           min-height: 28vh;
           resize: vertical;
@@ -287,7 +284,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           color: white;
           border: none;
           padding: 16px;
-          font-size: 1.2em;
+          font-size: 0.95em;
           border-radius: 12px;
           cursor: pointer;
           font-weight: 700;
@@ -328,7 +325,7 @@ export default function createImageGeneratorSlide(data, slideId) {
         }
 
         .ig-loading p {
-          font-size: 1em;
+          font-size: 0.85em;
           font-weight: 500;
         }
 
@@ -339,7 +336,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           border-radius: 8px;
           border-left: 4px solid #c33;
           display: none;
-          font-size: 0.95em;
+          font-size: 0.8em;
         }
 
         .ig-error.active {
@@ -369,7 +366,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           color: white;
           border: none;
           padding: 10px 24px;
-          font-size: 1em;
+          font-size: 0.85em;
           border-radius: 8px;
           cursor: pointer;
           font-weight: 600;

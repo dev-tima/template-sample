@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createTitleQnASlide(data, slideId) {
-	return `
+  return `
     <section class="slide title-qna-slide" id="${slideId}">
       <div class="tq-slide-container">
         <div class="tq-decorations">
@@ -36,14 +36,14 @@ export default function createTitleQnASlide(data, slideId) {
           width: 100%;
         }
         .tq-qna-text {
-          font-size: 400%;
+          font-size: 200%;
           font-weight: 700;
           color: #FFD59E;
           position: relative;
           z-index: 2;
         }
         .tq-question-mark {
-          font-size: 600%;
+          font-size: 300%;
           font-weight: 700;
           position: absolute;
         }
@@ -64,7 +64,7 @@ export default function createTitleQnASlide(data, slideId) {
         .tq-slide-title {
           text-align: center;
           margin-top: 2%;
-          font-size: 280%;
+          font-size: 160%;
           font-weight: 700;
           position: relative;
           z-index: 2;

@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createContentWithCaptionSlide(data, slideId) {
-	return `
+  return `
     <section class="slide content-with-caption-slide" id="${slideId}">
       <div class="cwc-slide-container">
         <div class="cwc-slide-caption-container">
@@ -46,12 +46,12 @@ export default function createContentWithCaptionSlide(data, slideId) {
           height: 55%;
           display: flex;
           align-items: flex-end;
-          font-size: 160%;
+          font-size: 110%;
         }
         .cwc-slide-caption-box {
           height: 100%;
           display: flex;
-          font-size: 80%;
+          font-size: 70%;
         }
         .cwc-slide-content-container {
           display: flex;
@@ -66,7 +66,7 @@ export default function createContentWithCaptionSlide(data, slideId) {
           justify-content: flex-start;
           width: 100%;
           height: 100%;
-          font-size: 160%;
+          font-size: 110%;
           margin-top: 14%;
         }
       </style>

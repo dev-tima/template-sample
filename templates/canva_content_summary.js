@@ -1,29 +1,29 @@
 import { marked } from "marked";
 
 export default function createContentSummarySlide(data, slideId) {
-	const summarys = data.summarys ? data.summarys.slice(0, 2) : [];
+  const summarys = data.summarys ? data.summarys.slice(0, 2) : [];
 
-	return `
+  return `
     <section class="slide content-summary-slide" id="${slideId}">
       <div class="cs-slide-container">
         <div class="cs-slide-title-box">${marked.parse(data.title)}</div>
         <div class="cs-slide-header-box">${marked.parse(data.header)}</div>
         <div class="cs-slide-list-container">
           ${summarys
-				.map(
-					(summary, idx) => `
+            .map(
+              (summary, idx) => `
             <div class="cs-slide-item">
               <div class="cs-slide-icon">✓</div>
               <div class="cs-slide-text">${marked.parse(summary)}</div>
             </div>
             ${
-				idx < summarys.length - 1
-					? `<div class="cs-slide-div"></div>`
-					: ""
-			}
+              idx < summarys.length - 1
+                ? `<div class="cs-slide-div"></div>`
+                : ""
+            }
             `
-				)
-				.join("")}
+            )
+            .join("")}
         </div>
       </div>
       <style>
@@ -45,7 +45,7 @@ export default function createContentSummarySlide(data, slideId) {
         .cs-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -59,7 +59,7 @@ export default function createContentSummarySlide(data, slideId) {
           padding: 0.8% 3%;
           background-color: #ffd59e;
           border-radius: 50px;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 500;
           justify-content: center;
           margin-top: 8%;
@@ -88,14 +88,14 @@ export default function createContentSummarySlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 500;
           color: #fff;
           margin-right: 4%;
         }
         .cs-slide-text {
           flex: 1;
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 500;
         }
         .cs-slide-div {

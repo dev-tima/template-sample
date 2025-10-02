@@ -123,7 +123,7 @@ export default function createQuizActivitySlide(data, slideId) {
         .quiz-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 180%;
+          font-size: 110%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -131,7 +131,7 @@ export default function createQuizActivitySlide(data, slideId) {
           margin-bottom: 3%;
         }
         .quiz-question-box {
-          font-size: 130%;
+          font-size: 90%;
           font-weight: 600;
           text-align: center;
           margin-bottom: 5%;
@@ -154,7 +154,7 @@ export default function createQuizActivitySlide(data, slideId) {
           border-radius: 15px;
           cursor: pointer;
           transition: all 0.3s ease;
-          font-size: 120%;
+          font-size: 85%;
           font-weight: 500;
           text-align: left;
           min-height: 80px;
@@ -172,7 +172,7 @@ export default function createQuizActivitySlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 140%;
+          font-size: 95%;
           font-weight: 700;
           flex-shrink: 0;
           margin-right: 4%;

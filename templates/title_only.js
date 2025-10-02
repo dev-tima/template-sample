@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createTitleOnlySlide(data, slideId) {
-	return `
+  return `
     <section class="slide title-only-slide" id="${slideId}">
       <div class="to-slide-container">
         <div class="to-slide-title-box">
@@ -30,7 +30,7 @@ export default function createTitleOnlySlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: start;
-          font-size: 230%;
+          font-size: 140%;
         }
       </style>
     </section>

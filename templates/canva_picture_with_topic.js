@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createPictureWithTopicSlide(data, slideId) {
-	return `
+  return `
     <section class="slide pwt-slide" id="${slideId}">
       <div class="pwt-slide-container">
         <div class="pwt-slide-title-box">${marked.parse(data.title)}</div>
@@ -13,8 +13,8 @@ export default function createPictureWithTopicSlide(data, slideId) {
             <div class="pwt-slide-text-title">${marked.parse(data.title)}</div>
             <div class="pwt-slide-text-topic">${marked.parse(data.topic)}</div>
             <div class="pwt-slide-keywords">${data.keywords
-				.map((k) => `#${k}`)
-				.join(" ")}</div>
+              .map((k) => `#${k}`)
+              .join(" ")}</div>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default function createPictureWithTopicSlide(data, slideId) {
         .pwt-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -78,18 +78,18 @@ export default function createPictureWithTopicSlide(data, slideId) {
           padding: 5% 3%;
         }
         .pwt-slide-text-title {
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 600;
         }
         .pwt-slide-text-topic {
           display: flex;
           flex: 1;
           margin-top: 8%;
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 400;
         }
         .pwt-slide-keywords {
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 600;
         }
       </style>

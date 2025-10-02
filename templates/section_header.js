@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createSectionHeaderSlide(data, slideId) {
-	return `
+  return `
     <section class="slide section-header-slide" id="${slideId}">
       <div class="sh-slide-container">
         <div class="sh-slide-title-box">
@@ -36,7 +36,7 @@ export default function createSectionHeaderSlide(data, slideId) {
           height: 45%;
           align-items: flex-end;
           justify-content: start;
-          font-size: 300%;
+          font-size: 180%;
           text-align: start;
           margin-top: 3%;
           margin-bottom: 1%; 
@@ -46,7 +46,7 @@ export default function createSectionHeaderSlide(data, slideId) {
           height: 24%;
           align-items: flex-start;
           justify-content: start;
-          font-size: 130%;
+          font-size: 90%;
           color: #808080;
           text-align: center;
         }

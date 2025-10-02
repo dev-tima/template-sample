@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createTwoContentSlide(data, slideId) {
-	return `
+  return `
     <section class="slide two-content-slide" id="${slideId}">
       <div class="tc-slide-container">
         <div class="tc-slide-title-box">${marked.parse(data.title)}</div>
@@ -39,7 +39,7 @@ export default function createTwoContentSlide(data, slideId) {
           height: 20%;
           align-items: center;
           justify-content: start;
-          font-size: 230%;
+          font-size: 140%;
           margin-bottom: 1%; 
         }
         .tc-slide-content-container {
@@ -54,7 +54,7 @@ export default function createTwoContentSlide(data, slideId) {
           flex-direction: column;
           width: 49.5%;
           height:100%;
-          font-size: 130%;
+          font-size: 90%;
         }
       </style>
     </section>

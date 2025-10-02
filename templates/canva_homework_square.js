@@ -1,33 +1,33 @@
 import { marked } from "marked";
 
 export default function createHomeworkSquareSlide(data, slideId) {
-	// data.homeworks: [{ homework: string, description: string }, ...]
-	const colors = ["#FFE897", "#FFE6C3", "#DAF7F1"];
-	const homeworks = (data.homeworks || []).slice(0, 3);
+  // data.homeworks: [{ homework: string, description: string }, ...]
+  const colors = ["#FFE897", "#FFE6C3", "#DAF7F1"];
+  const homeworks = (data.homeworks || []).slice(0, 3);
 
-	return `
+  return `
     <section class="slide hs-slide" id="${slideId}">
       <div class="hs-slide-container">
         <div class="hs-slide-title-box">${marked.parse(data.title)}</div>
         <div class="hs-slide-row">
           ${homeworks
-				.map(
-					(homework, idx) => `
+            .map(
+              (homework, idx) => `
             <div class="hs-slide-card" style="background-color:${colors[idx]};">
               <div class="hs-slide-homework">${marked.parse(
-					homework.homework
-				)}</div>
+                homework.homework
+              )}</div>
               <div class="hs-slide-description">${marked.parse(
-					homework.description
-				)}</div>
+                homework.description
+              )}</div>
             </div>`
-				)
-				.join("")}
+            )
+            .join("")}
         </div>
         <div class="hs-slide-footer-text">
             <span class="hs-slide-footer-icon">☆&nbsp;</span>${marked.parse(
-				data.footer
-			)}</div>
+              data.footer
+            )}</div>
       </div>
       <style>
         .hs-slide {
@@ -48,7 +48,7 @@ export default function createHomeworkSquareSlide(data, slideId) {
         .hs-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -78,18 +78,18 @@ export default function createHomeworkSquareSlide(data, slideId) {
           display: flex;
           justify-content: center;
           width: 100%;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 600;
         }
         .hs-slide-description {
           display: flex;
           justify-content: center;
           width: 100%;
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 400;
         }
         .hs-slide-footer-icon {
-          font-size: 100%;
+          font-size: 80%;
           color: #F76C6C;
           transform: rotate(5deg);
         }
@@ -97,7 +97,7 @@ export default function createHomeworkSquareSlide(data, slideId) {
           display: flex;
           flex: 1;
           width: 100%;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 600;
           align-items: center;
           justify-content: center;

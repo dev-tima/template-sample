@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createTitleSlide(data, slideId) {
-	return `
+  return `
     <section class="slide title-slide" id="${slideId}">
       <div class="title-slide-container">
         <div class="title-slide-title-box">
@@ -36,7 +36,7 @@ export default function createTitleSlide(data, slideId) {
           height: 40%;
           align-items: flex-end;
           justify-content: center;
-          font-size: 300%;
+          font-size: 180%;
           text-align: center;
           margin-bottom: 1%; 
         }
@@ -45,7 +45,7 @@ export default function createTitleSlide(data, slideId) {
           height: 30%;
           align-items: flex-start;
           justify-content: center;
-          font-size: 120%;
+          font-size: 85%;
           text-align: center;
         }
       </style>

@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createComparisonSlide(data, slideId) {
-	return `
+  return `
     <section class="slide comparison-slide" id="${slideId}">
       <div class="c-slide-container">
         <div class="c-slide-title-box">
@@ -48,7 +48,7 @@ export default function createComparisonSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: start;
-          font-size: 230%;
+          font-size: 140%;
         }
         .c-slide-compare-container {
           display: flex;
@@ -64,7 +64,7 @@ export default function createComparisonSlide(data, slideId) {
         .c-slide-col-title {
           height: 20%;
           width: 100%;
-          font-size: 125%;
+          font-size: 90%;
           font-weight: bold;
           display: flex;
           align-items: flex-end;
@@ -72,7 +72,7 @@ export default function createComparisonSlide(data, slideId) {
         }
         .c-slide-col-content {
           height: 50%;
-          font-size: 150%;
+          font-size: 100%;
           overflow-y: auto;
         }
       </style>

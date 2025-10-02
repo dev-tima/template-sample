@@ -1,9 +1,9 @@
 import { marked } from "marked";
 
 export default function createContentDetailSlide(data, slideId) {
-	const details = data.details ? data.details.slice(0, 3) : [];
+  const details = data.details ? data.details.slice(0, 3) : [];
 
-	return `
+  return `
     <section class="slide content-detail-slide" id="${slideId}">
       <div class="cd-slide-container">
         <div class="cd-slide-title-box">
@@ -12,14 +12,14 @@ export default function createContentDetailSlide(data, slideId) {
         <div class="cd-slide-header-box">${marked.parse(data.header)}</div>
         <div class="cd-slide-list-container">
           ${details
-				.map(
-					(detail, index) => `
+            .map(
+              (detail, index) => `
             <div class="cd-slide-item">
               <div class="cd-slide-number">${index + 1}</div>
               <div class="cd-slide-text">${marked.parse(detail)}</div>
             </div>`
-				)
-				.join("")}
+            )
+            .join("")}
         </div>
       </div>
       <style>
@@ -41,7 +41,7 @@ export default function createContentDetailSlide(data, slideId) {
         .cd-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -55,7 +55,7 @@ export default function createContentDetailSlide(data, slideId) {
           padding: 0.8% 3%;
           background-color: #ffd59e;
           border-radius: 50px;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 500;
           justify-content: center;
           margin-top: 8%;
@@ -85,7 +85,7 @@ export default function createContentDetailSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 500;
           flex-shrink: 0;
           margin-right: 4%;
@@ -93,7 +93,7 @@ export default function createContentDetailSlide(data, slideId) {
         .cd-slide-text {
           display: flex;
           width: 100%:
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 500;
         }
       </style>

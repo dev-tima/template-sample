@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createTitleSlide(data, slideId) {
-	return `
+  return `
     <section class="slide canva-title-slide" id="${slideId}">
       <div class="ct-slide-container">
         <div class="ct-slide-header-box">
@@ -42,7 +42,7 @@ export default function createTitleSlide(data, slideId) {
           padding: 0.8% 3%;
           background-color: #ffd59e;
           border-radius: 50px;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 500;
           justify-content: center;
           border: 2px solid #000101;
@@ -52,7 +52,7 @@ export default function createTitleSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 400%;
+          font-size: 200%;
           font-weight: 700;
           text-align: center;
           margin-top: 3%
@@ -61,14 +61,14 @@ export default function createTitleSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 150%;
+          font-size: 100%;
           font-weight: 600;
           text-align: center;
           margin-top: 1%;
         }
         .ct-slide-footer-box {
           align-self: center;
-          font-size: 120%;
+          font-size: 85%;
           font-weight: 500;
           text-align: center;
           margin-top: 12%;

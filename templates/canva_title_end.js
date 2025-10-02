@@ -1,16 +1,16 @@
 import { marked } from "marked";
 
 export default function createTitleEndSlide(data, slideId) {
-	return `
+  return `
     <section class="slide title-end-slide" id="${slideId}">
       <div class="title-end-slide-container">
         <div class="title-end-slide-title-box">${marked.parse(data.title)}</div>
         <div class="title-end-slide-subtitle-box">${marked.parse(
-			data.subtitle
-		)}</div>
+          data.subtitle
+        )}</div>
         <div class="title-end-slide-footer-box">${marked.parse(
-			data.footer
-		)}</div>
+          data.footer
+        )}</div>
       </div>
       <style>
         .title-end-slide {
@@ -33,7 +33,7 @@ export default function createTitleEndSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 400%;
+          font-size: 200%;
           font-weight: 700;
           text-align: center;
           margin-top: 3%;
@@ -42,14 +42,14 @@ export default function createTitleEndSlide(data, slideId) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 150%;
+          font-size: 100%;
           font-weight: 600;
           text-align: center;
           margin-top: 1%;
         }
         .title-end-slide-footer-box {
           align-self: center;
-          font-size: 120%;
+          font-size: 85%;
           font-weight: 500;
           text-align: center;
           margin-top: 12%;

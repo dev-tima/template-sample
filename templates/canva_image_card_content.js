@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createImageCardContentSlide(data, slideId) {
-	return `
+  return `
     <section class="slide image-card-content-slide" id="${slideId}">
       <div class="icc-slide-container">
         <div class="icc-slide-title-box">${marked.parse(data.title)}</div>
@@ -12,11 +12,11 @@ export default function createImageCardContentSlide(data, slideId) {
             </div>
             <div class="icc-slide-card-content">
               <div class="icc-slide-subtitle">${marked.parse(
-					data.subtitle1
-				)}</div>
+                data.subtitle1
+              )}</div>
               <div class="icc-slide-content">${marked.parse(
-					data.content1
-				)}</div>
+                data.content1
+              )}</div>
             </div>
           </div>
           <div class="icc-slide-image-card">
@@ -25,11 +25,11 @@ export default function createImageCardContentSlide(data, slideId) {
             </div>
             <div class="icc-slide-card-content">
               <div class="icc-slide-subtitle">${marked.parse(
-					data.subtitle2
-				)}</div>
+                data.subtitle2
+              )}</div>
               <div class="icc-slide-content">${marked.parse(
-					data.content2
-				)}</div>
+                data.content2
+              )}</div>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function createImageCardContentSlide(data, slideId) {
         .icc-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -95,12 +95,12 @@ export default function createImageCardContentSlide(data, slideId) {
           text-align: center;
         }
         .icc-slide-subtitle {
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 600;
           margin-bottom: 3%;
         }
         .icc-slide-content {
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 400;
         }
       </style>

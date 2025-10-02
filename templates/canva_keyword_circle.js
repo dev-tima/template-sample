@@ -1,31 +1,31 @@
 import { marked } from "marked";
 
 export default function createKeywordCirclesSlide(data, slideId) {
-	// data.keywords: [{ keyword: string, description: string }, ...]
-	const colors = ["#FFE897", "#FFE6C3", "#DAF7F1"];
-	const keywords = (data.keywords || []).slice(0, 3);
+  // data.keywords: [{ keyword: string, description: string }, ...]
+  const colors = ["#FFE897", "#FFE6C3", "#DAF7F1"];
+  const keywords = (data.keywords || []).slice(0, 3);
 
-	return `
+  return `
     <section class="slide kcs-slide" id="${slideId}">
       <div class="kcs-slide-container">
         <div class="kcs-slide-title-box">${marked.parse(data.title)}</div>
         <div class="kcs-slide-row">
           ${keywords
-				.map(
-					(keyword, idx) => `
+            .map(
+              (keyword, idx) => `
             <div class="kcs-slide-circle" style="background-color:${
-				colors[idx]
-			};">
+              colors[idx]
+            };">
               <div class="kcs-slide-keyword">${marked.parse(
-					keyword.keyword
-				)}</div>
+                keyword.keyword
+              )}</div>
               <div class="kcs-slide-description">${marked.parse(
-					keyword.description
-				)}</div>
+                keyword.description
+              )}</div>
             </div>
           `
-				)
-				.join("")}
+            )
+            .join("")}
         </div>
       </div>
       <style>
@@ -47,7 +47,7 @@ export default function createKeywordCirclesSlide(data, slideId) {
         .kcs-slide-title-box {
           display: flex;
           height: 8%;
-          font-size: 240%;
+          font-size: 140%;
           font-weight: 700;
           align-items: center;
           justify-content: center;
@@ -77,14 +77,14 @@ export default function createKeywordCirclesSlide(data, slideId) {
           display: flex;
           justify-content: center;
           width: 100%;
-          font-size: 100%;
+          font-size: 80%;
           font-weight: 600;
         }
         .kcs-slide-description {
           display: flex;
           justify-content: center;
           width: 100%;
-          font-size: 90%;
+          font-size: 75%;
           font-weight: 400;
         }
       </style>

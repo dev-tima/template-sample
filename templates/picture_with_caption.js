@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createPictureWithCaptionSlide(data, slideId) {
-	return `
+  return `
     <section class="slide picture-with-caption-slide" id="${slideId}">
       <div class="pwc-slide-container">
         <div class="pwc-slide-caption-container">
@@ -45,12 +45,12 @@ export default function createPictureWithCaptionSlide(data, slideId) {
           display: flex;
           align-items: flex-end;
           height: 55%;
-          font-size: 160%;
+          font-size: 110%;
         }
         .pwc-slide-caption-box {
           display: flex;
           height: 100%;
-          font-size: 80%;
+          font-size: 70%;
         }
         .pwc-slide-image-container {
           display: flex;
