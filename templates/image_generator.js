@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createImageGeneratorSlide(data, slideId) {
-  const apiUrl = "https://dev-ai-model.redbrick.ai/api/gen-thumbnail";
+  const apiUrl = "https://dev-ai-model.redbrick.ai/api/image-generator";
   const title = data.title || "AI Image Generator";
   const placeholder =
     data.placeholder ||
@@ -153,7 +153,7 @@ export default function createImageGeneratorSlide(data, slideId) {
                 throw new Error(data.error || "Image generation failed");
               }
 
-              return data.thumbnails && data.thumbnails[0] ? data.thumbnails[0] : null;
+              return data.image || null;
             }
 
             function displayImage(url, prompt) {
