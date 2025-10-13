@@ -48,6 +48,16 @@ export default function createImageGeneratorSlide(data, slideId) {
           const apiUrl = "${apiUrl}";
           const gameId = "${gameId}";
 
+          // Capture authToken from URL immediately on page load
+          (function captureAuthToken() {
+            const params = new URLSearchParams(window.location.search);
+            const authToken = params.get('authToken');
+
+            if (authToken) {
+              window.__authToken = authToken;
+            }
+          })();
+
           // Wait for DOM to be ready
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initSlide);
@@ -103,14 +113,17 @@ export default function createImageGeneratorSlide(data, slideId) {
             }
 
             async function generateImageFromAPI(prompt, apiUrl, gameId) {
-              // Extract token from URL hash first, fallback to localStorage
-              const getAuthTokenFromHash = () => {
-                const hash = window.location.hash.substring(1);
-                const params = new URLSearchParams(hash);
-                return params.get('authToken');
-              };
+              // Get auth token from global variable (captured on page load)
+              // Fallback to localStorage for dev mode (when not in credentialless iframe)
+              let apiToken = window.__authToken;
 
-              const apiToken = getAuthTokenFromHash() || localStorage.getItem("authToken");
+              if (!apiToken) {
+                try {
+                  apiToken = localStorage.getItem("authToken");
+                } catch (e) {
+                  // Expected in credentialless iframe
+                }
+              }
 
               if (!apiToken) {
                 throw new Error(
@@ -343,8 +356,8 @@ export default function createImageGeneratorSlide(data, slideId) {
         }
 
         .ig-generated-image {
-          max-width: 80%;
-          max-height: 360px;
+          max-width: 50%;
+          max-height: 320px;
           border-radius: 12px;
           border: 2px solid #ddd;
           margin-bottom: 15px;

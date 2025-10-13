@@ -65,6 +65,16 @@ export default function createAIChatTutorSlide(data, slideId) {
           let conversationHistory = [];
           let isStreaming = false;
 
+          // Capture authToken from URL immediately on page load
+          (function captureAuthToken() {
+            const params = new URLSearchParams(window.location.search);
+            const authToken = params.get('authToken');
+
+            if (authToken) {
+              window.__authToken = authToken;
+            }
+          })();
+
           // Wait for DOM to be ready
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initSlide);
@@ -145,14 +155,17 @@ export default function createAIChatTutorSlide(data, slideId) {
             }
 
             async function sendMessageToAPI(systemPrompt, messages, typingId) {
-              // Extract token from URL hash first, fallback to localStorage
-              const getAuthTokenFromHash = () => {
-                const hash = window.location.hash.substring(1);
-                const params = new URLSearchParams(hash);
-                return params.get('authToken');
-              };
+              // Get auth token from global variable (captured on page load)
+              // Fallback to localStorage for dev mode (when not in credentialless iframe)
+              let apiToken = window.__authToken;
 
-              const apiToken = getAuthTokenFromHash() || localStorage.getItem("authToken");
+              if (!apiToken) {
+                try {
+                  apiToken = localStorage.getItem("authToken");
+                } catch (e) {
+                  // Expected in credentialless iframe
+                }
+              }
 
               if (!apiToken) {
                 throw new Error('API token not found. Please set it in localStorage with key "authToken"');
