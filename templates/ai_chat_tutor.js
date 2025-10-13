@@ -145,7 +145,14 @@ export default function createAIChatTutorSlide(data, slideId) {
             }
 
             async function sendMessageToAPI(systemPrompt, messages, typingId) {
-              const apiToken = localStorage.getItem("authToken");
+              // Extract token from URL hash first, fallback to localStorage
+              const getAuthTokenFromHash = () => {
+                const hash = window.location.hash.substring(1);
+                const params = new URLSearchParams(hash);
+                return params.get('authToken');
+              };
+
+              const apiToken = getAuthTokenFromHash() || localStorage.getItem("authToken");
 
               if (!apiToken) {
                 throw new Error('API token not found. Please set it in localStorage with key "authToken"');
