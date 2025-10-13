@@ -20,10 +20,7 @@ export default function createImageGeneratorSlide(data, slideId) {
   return `
     <section class="slide image-generator-slide" id="${slideId}">
       <div class="ig-container">
-        <div class="ig-header">
-          <span class="ig-icon">🚀</span>
-          <h2 class="ig-title">${marked.parse(title)}</h2>
-        </div>
+        <div class="ig-title-box">${marked.parse(title)}</div>
 
         <div class="ig-content-wrapper">
           <div class="ig-image-section">
@@ -192,42 +189,34 @@ export default function createImageGeneratorSlide(data, slideId) {
 
       <style>
         .image-generator-slide {
-          padding: 60px 80px !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          line-height: 1.08;
         }
 
         .ig-container {
-          max-width: 1100px;
-          margin: 0 auto;
+          width: 85%;
+          height: 84%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: start;
         }
 
-        .ig-header {
+        .ig-title-box {
           display: flex;
-          height: 60px;
+          height: 8%;
+          font-size: 140%;
+          font-weight: 700;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          margin-bottom: 20px;
-          background: white;
-          padding: 8px 24px;
-          border-radius: 12px;
-          border: 2px solid #000;
-          box-shadow: 3px 3px 0px #FFD580;
+          margin-top: 4%;
+          margin-bottom: 2%;
         }
 
-        .ig-icon {
-          font-size: 1.1em;
-        }
-
-        .ig-title {
-          text-align: center;
-          margin: 0;
-          font-size: 0.9em;
-          font-weight: 700;
-          color: #555;
-          line-height: 1;
-        }
-
-        .ig-title p {
+        .ig-title-box p {
           margin: 0;
           line-height: 1;
         }
@@ -235,8 +224,10 @@ export default function createImageGeneratorSlide(data, slideId) {
         .ig-content-wrapper {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 30px;
+          gap: 3%;
           align-items: start;
+          width: 100%;
+          flex: 1;
         }
 
         .ig-image-section {
