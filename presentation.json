@@ -167,8 +167,9 @@
     {
       "type": "image_generator",
       "data": {
-        "title": "AI Thumbnail Generator",
-        "placeholder": "Describe the game thumbnail you want to generate... (e.g., 'Space adventure game with rocket ships and planets')"
+        "title": "AI Image Generator",
+        "systemPrompt": "You are an AI image generator that creates high-quality educational illustrations based on text descriptions. Generate clear, engaging images suitable for a classroom setting.",
+        "placeholder": "Describe the educational image you want to generate... (e.g., 'A diagram showing Newton's Three Laws of Motion with simple illustrations')"
       },
       "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
@@ -178,12 +179,7 @@
       "data": {
         "title": "Quick Quiz: Test Your Knowledge!",
         "question": "According to Newton's Second Law, what is the relationship between force, mass, and acceleration?",
-        "choices": [
-          "F = m + a",
-          "F = ma",
-          "F = m / a",
-          "F = m - a"
-        ],
+        "choices": ["F = m + a", "F = ma", "F = m / a", "F = m - a"],
         "correctAnswer": 1
       },
       "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",

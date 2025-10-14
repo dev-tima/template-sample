@@ -1,11 +1,10 @@
 import { marked } from "marked";
 
 export default function createImageGeneratorSlide(data, slideId) {
-  const apiUrl = "https://dev-ai-model.redbrick.ai/api/image-generator";
+  const apiUrl = "http://localhost:3001/api/image-generator";
   const title = data.title || "AI Image Generator";
-  const placeholder =
-    data.placeholder ||
-    'Describe the thumbnail you want to generate... (e.g., "Space adventure game with rocket ships and planets")';
+  const systemPrompt = data.systemPrompt || "";
+  const placeholder = data.placeholder || "";
   const gameId = "presentation_" + Date.now();
 
   return `
@@ -24,7 +23,6 @@ export default function createImageGeneratorSlide(data, slideId) {
 
             <div class="ig-result" id="result-${slideId}">
               <img class="ig-generated-image" id="generatedImage-${slideId}" alt="Generated image">
-              <button class="ig-download-btn" data-slide="${slideId}">Download Image</button>
             </div>
           </div>
 
@@ -37,7 +35,7 @@ export default function createImageGeneratorSlide(data, slideId) {
               ></textarea>
             </div>
 
-            <button class="ig-generate-btn" data-slide="${slideId}">Generate Image ✨</button>
+            <button class="ig-generate-btn" data-slide="${slideId}">Generate Image</button>
           </div>
         </div>
       </div>
@@ -47,6 +45,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           const slideId = "${slideId}";
           const apiUrl = "${apiUrl}";
           const gameId = "${gameId}";
+          const systemPrompt = ${JSON.stringify(systemPrompt)};
 
           // Capture authToken from URL immediately on page load
           (function captureAuthToken() {
@@ -67,7 +66,6 @@ export default function createImageGeneratorSlide(data, slideId) {
 
           function initSlide() {
             const generateBtn = document.querySelector('.ig-generate-btn[data-slide="' + slideId + '"]');
-            const downloadBtn = document.querySelector('.ig-download-btn[data-slide="' + slideId + '"]');
 
             if (!generateBtn) {
               console.error("Generate button not found for slide:", slideId);
@@ -88,7 +86,7 @@ export default function createImageGeneratorSlide(data, slideId) {
               hideResult();
 
               try {
-                const imageUrl = await generateImageFromAPI(prompt, apiUrl, gameId);
+                const imageUrl = await generateImageFromAPI(prompt, apiUrl, gameId, systemPrompt);
                 displayImage(imageUrl, prompt);
               } catch (error) {
                 showError(error.message);
@@ -97,22 +95,7 @@ export default function createImageGeneratorSlide(data, slideId) {
               }
             });
 
-            // Download button
-            if (downloadBtn) {
-              downloadBtn.addEventListener("click", () => {
-                const img = document.getElementById("generatedImage-" + slideId);
-                const url = img.src;
-
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "thumbnail-" + Date.now() + ".png";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              });
-            }
-
-            async function generateImageFromAPI(prompt, apiUrl, gameId) {
+            async function generateImageFromAPI(prompt, apiUrl, gameId, systemPrompt) {
               // Get auth token from global variable (captured on page load)
               // Fallback to localStorage for dev mode (when not in credentialless iframe)
               let apiToken = window.__authToken;
@@ -139,6 +122,7 @@ export default function createImageGeneratorSlide(data, slideId) {
               const requestBody = {
                 prompt: prompt,
                 gameId: gameId,
+                systemPrompt: systemPrompt,
               };
 
               const response = await fetch(apiUrl, {
@@ -214,6 +198,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           flex-direction: column;
           align-items: center;
           justify-content: start;
+          margin-left: 3%;
         }
 
         .ig-title-box {
@@ -238,7 +223,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           gap: 3%;
           align-items: start;
           width: 100%;
-          flex: 1;
+          flex: 0.9;
         }
 
         .ig-image-section {
@@ -246,10 +231,13 @@ export default function createImageGeneratorSlide(data, slideId) {
           border: 2px solid #ddd;
           border-radius: 12px;
           padding: 20px;
-          min-height: 30vh;
+          height: 100%;
+          box-sizing: border-box;
           display: flex;
           align-items: center;
           justify-content: center;
+          position: relative;
+          overflow: hidden;
         }
 
         .ig-control-section {
@@ -347,36 +335,25 @@ export default function createImageGeneratorSlide(data, slideId) {
 
         .ig-result {
           display: none;
-          text-align: center;
           width: 100%;
+          height: 100%;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
         }
 
         .ig-result.active {
-          display: block;
+          display: flex;
         }
 
         .ig-generated-image {
-          max-width: 50%;
-          max-height: 320px;
+          max-width: 90%;
+          max-height: 40vh;
+          width: auto;
+          height: auto;
           border-radius: 12px;
           border: 2px solid #ddd;
-          margin-bottom: 15px;
-        }
-
-        .ig-download-btn {
-          background: #000;
-          color: white;
-          border: none;
-          padding: 10px 24px;
-          font-size: 0.85em;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.2s;
-        }
-
-        .ig-download-btn:hover {
-          background: #333;
+          object-fit: contain;
         }
       </style>
     </section>
