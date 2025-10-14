@@ -1,6 +1,6 @@
 import { marked } from "marked";
 
-export default function createAIChatTutorSlide(data, slideId) {
+export default function createChatActivitySlide(data, slideId) {
   const apiUrl =
     data.apiUrl || "https://dev-ai-model.redbrick.ai/api/chat-generator";
   const title = data.title || "AI Chat Tutor";
@@ -12,46 +12,28 @@ export default function createAIChatTutorSlide(data, slideId) {
     data.placeholder || "Ask me anything about today's lesson...";
 
   return `
-    <section class="slide ai-chat-tutor-slide" id="${slideId}">
+    <section class="slide chat-activity-slide" id="${slideId}">
       <div class="act-container">
         <div class="act-title-box">${marked.parse(title)}</div>
 
-        <div class="act-content-wrapper">
-          <div class="act-chat-section">
-            <div class="act-messages" id="messages-${slideId}">
-              <div class="act-welcome-message">
-                <div class="act-message act-ai-message">
-                  <div class="act-message-content">
-                    <p>👋 Hello! I'm your AI tutor. Ask me anything about today's lesson, and I'll help you understand the concepts better.</p>
-                  </div>
+        <div class="act-chat-section">
+          <div class="act-messages" id="messages-${slideId}">
+            <div class="act-welcome-message">
+              <div class="act-message act-ai-message">
+                <div class="act-message-content">
+                  <p>Hello! I'm your AI tutor. Ask me anything about today's lesson.</p>
                 </div>
               </div>
             </div>
-            <div class="act-input-area">
-              <textarea
-                class="act-user-input"
-                id="userInput-${slideId}"
-                placeholder="${placeholder}"
-                rows="2"
-              ></textarea>
-              <button class="act-send-btn" data-slide="${slideId}">Send</button>
-            </div>
           </div>
-
-          <div class="act-control-section">
-            <div class="act-system-prompt-section">
-              <label class="act-label">System Prompt (Tutor's Behavior):</label>
-              <textarea
-                class="act-system-prompt"
-                id="systemPrompt-${slideId}"
-                rows="12"
-              >${defaultSystemPrompt}</textarea>
-            </div>
-
-            <div class="act-actions">
-              <button class="act-clear-btn" data-slide="${slideId}">Clear Chat</button>
-              <button class="act-reset-btn" data-slide="${slideId}">Reset Prompt</button>
-            </div>
+          <div class="act-input-area">
+            <textarea
+              class="act-user-input"
+              id="userInput-${slideId}"
+              placeholder="${placeholder}"
+              rows="2"
+            ></textarea>
+            <button class="act-send-btn" data-slide="${slideId}">Send</button>
           </div>
         </div>
       </div>
@@ -84,8 +66,6 @@ export default function createAIChatTutorSlide(data, slideId) {
 
           function initSlide() {
             const sendBtn = document.querySelector('.act-send-btn[data-slide="' + slideId + '"]');
-            const clearBtn = document.querySelector('.act-clear-btn[data-slide="' + slideId + '"]');
-            const resetBtn = document.querySelector('.act-reset-btn[data-slide="' + slideId + '"]');
             const userInput = document.getElementById("userInput-" + slideId);
 
             if (!sendBtn || !userInput) {
@@ -104,33 +84,13 @@ export default function createAIChatTutorSlide(data, slideId) {
               }
             });
 
-            // Clear chat button
-            clearBtn.addEventListener("click", () => {
-              conversationHistory = [];
-              const messagesContainer = document.getElementById("messages-" + slideId);
-              messagesContainer.innerHTML = \`
-                <div class="act-welcome-message">
-                  <div class="act-message act-ai-message">
-                    <div class="act-message-content">
-                      <p>👋 Hello! I'm your AI tutor. Ask me anything about today's lesson, and I'll help you understand the concepts better.</p>
-                    </div>
-                  </div>
-                </div>
-              \`;
-            });
-
-            // Reset prompt button
-            resetBtn.addEventListener("click", () => {
-              document.getElementById("systemPrompt-" + slideId).value = defaultSystemPrompt;
-            });
-
             async function handleSend() {
               if (isStreaming) return;
 
               const userMessage = userInput.value.trim();
               if (!userMessage) return;
 
-              const systemPrompt = document.getElementById("systemPrompt-" + slideId).value.trim();
+              const systemPrompt = defaultSystemPrompt;
 
               // Add user message to UI
               addMessage("user", userMessage);
@@ -309,7 +269,7 @@ export default function createAIChatTutorSlide(data, slideId) {
       </script>
 
       <style>
-        .ai-chat-tutor-slide {
+        .chat-activity-slide {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -318,7 +278,7 @@ export default function createAIChatTutorSlide(data, slideId) {
         }
 
         .act-container {
-          width: 85%;
+          width: 70%;
           height: 84%;
           display: flex;
           flex-direction: column;
@@ -333,7 +293,7 @@ export default function createAIChatTutorSlide(data, slideId) {
           font-weight: 700;
           align-items: center;
           justify-content: center;
-          margin-top: 4%;
+          margin-top: 3%;
           margin-bottom: 2%;
         }
 
@@ -342,20 +302,11 @@ export default function createAIChatTutorSlide(data, slideId) {
           line-height: 1;
         }
 
-        .act-content-wrapper {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 3%;
-          align-items: start;
-          width: 100%;
-          flex: 1;
-          overflow: hidden;
-        }
-
         .act-chat-section {
           display: flex;
           flex-direction: column;
-          height: 95%;
+          width: 100%;
+          flex: 1;
           background: white;
           border: 2px solid #ddd;
           border-radius: 12px;
@@ -478,69 +429,6 @@ export default function createAIChatTutorSlide(data, slideId) {
         .act-send-btn:disabled {
           opacity: 0.6;
           cursor: not-allowed;
-        }
-
-        .act-control-section {
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-          height: 100%;
-        }
-
-        .act-system-prompt-section {
-          display: flex;
-          max-height: 80%;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .act-label {
-          font-size: 0.75em;
-          font-weight: 600;
-          color: #555;
-        }
-
-        .act-system-prompt {
-          width: 100%;
-          padding: 12px;
-          border: 2px solid #ddd;
-          border-radius: 8px;
-          font-size: 0.7em;
-          font-family: inherit;
-          resize: vertical;
-          background: white;
-          box-sizing: border-box;
-          flex: 1;
-        }
-
-        .act-system-prompt:focus {
-          outline: none;
-          border-color: #000;
-        }
-
-        .act-actions {
-          display: flex;
-          gap: 10px;
-        }
-
-        .act-clear-btn,
-        .act-reset-btn {
-          flex: 1;
-          background: white;
-          color: #333;
-          border: 2px solid #ddd;
-          padding: 10px;
-          font-size: 0.75em;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.2s;
-        }
-
-        .act-clear-btn:hover,
-        .act-reset-btn:hover {
-          background: #f5f5f5;
-          border-color: #000;
         }
       </style>
     </section>

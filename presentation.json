@@ -167,7 +167,7 @@
     {
       "type": "image_generator",
       "data": {
-        "title": "🎨 AI Thumbnail Generator",
+        "title": "AI Thumbnail Generator",
         "placeholder": "Describe the game thumbnail you want to generate... (e.g., 'Space adventure game with rocket ships and planets')"
       },
       "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
@@ -190,9 +190,9 @@
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
     },
     {
-      "type": "ai_chat_tutor",
+      "type": "chat_activity",
       "data": {
-        "title": "💬 Chat with Your AI Physics Tutor",
+        "title": "Chat with Your AI Physics Tutor",
         "systemPrompt": "You are a helpful physics tutor specializing in Forces and Motion. Answer students' questions clearly and encourage their curiosity. Use real-world examples to illustrate Newton's Laws and force concepts. Be patient and adapt your explanations to the student's level of understanding.",
         "placeholder": "Ask me anything about Forces and Motion..."
       },
