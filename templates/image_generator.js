@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
 export default function createImageGeneratorSlide(data, slideId) {
-  const apiUrl = "http://localhost:3001/api/image-generator";
+  const apiUrl = "https://dev-ai-model.redbrick.ai/api/image-generator";
   const title = data.title || "AI Image Generator";
   const systemPrompt = data.systemPrompt || "";
   const placeholder = data.placeholder || "";
