@@ -196,6 +196,17 @@
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
     },
     {
+      "type": "text_generator",
+      "data": {
+        "title": "AI Text Generator - Create Your Own Physics Example",
+        "systemPrompt": "You are a helpful physics educator. When given a topic or concept, create a clear, engaging explanation with real-world examples. Make the content educational and easy to understand for students learning physics.",
+        "inputPlaceholder": "Enter a physics topic or concept you'd like explained (e.g., 'Explain momentum using a car crash example')...",
+        "outputPlaceholder": "Your generated explanation will appear here..."
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
       "type": "student_input_field_activity",
       "data": {
         "title": "Student Feedback & Reflection",
