@@ -196,6 +196,52 @@
       "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
     },
     {
+      "type": "student_input_field_activity",
+      "data": {
+        "title": "Student Feedback & Reflection",
+        "questions": [
+          {
+            "type": "text",
+            "question": "What was the most interesting concept you learned about forces and motion today?"
+          },
+          {
+            "type": "rating",
+            "question": "How well did you understand Newton's First Law?"
+          },
+          {
+            "type": "rating",
+            "question": "How well did you understand Newton's Second Law (F=ma)?"
+          },
+          {
+            "type": "rating",
+            "question": "How well did you understand Newton's Third Law?"
+          },
+          {
+            "type": "text",
+            "question": "Can you give an example of physics in your daily life that we didn't discuss?"
+          },
+          {
+            "type": "rating",
+            "question": "How clear were today's explanations?"
+          },
+          {
+            "type": "text",
+            "question": "What questions do you still have about forces and motion?"
+          },
+          {
+            "type": "rating",
+            "question": "Rate your overall understanding of today's lesson"
+          },
+          {
+            "type": "text",
+            "question": "What topic would you like to explore more in our next class?"
+          }
+        ]
+      },
+      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
+      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+    },
+    {
       "type": "canva_title_end",
       "data": {
         "title": "Great Work Today!",
