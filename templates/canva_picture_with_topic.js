@@ -10,7 +10,6 @@ export default function createPictureWithTopicSlide(data, slideId) {
             <img src="${data.imageUrl}" alt="slide image" />
           </div>
           <div class="pwt-slide-text-box">
-            <div class="pwt-slide-text-title">${marked.parse(data.title)}</div>
             <div class="pwt-slide-text-topic">${marked.parse(data.topic)}</div>
             <div class="pwt-slide-keywords">${data.keywords
               .map((k) => `#${k}`)
@@ -76,10 +75,6 @@ export default function createPictureWithTopicSlide(data, slideId) {
           box-sizing: border-box;
           text-align: center;
           padding: 5% 3%;
-        }
-        .pwt-slide-text-title {
-          font-size: 80%;
-          font-weight: 600;
         }
         .pwt-slide-text-topic {
           display: flex;
