@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { readFileSync, copyFileSync } from "fs";
+import { readFileSync, copyFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
 
@@ -14,6 +14,10 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: "index.html",
+			},
+			external: (id) => {
+				// Exclude app.js and presentation.json from build since they're dev-only
+				return id.includes("app.js") || id.includes("presentation.json");
 			},
 		},
 	},
@@ -36,6 +40,12 @@ export default defineConfig({
 				async transform(html, context) {
 					// Only transform for build, not dev
 					if (context.server) {
+						return html;
+					}
+
+					// Check if presentation.json exists
+					if (!existsSync("presentation.json")) {
+						console.warn("presentation.json not found. Building with empty presentation.");
 						return html;
 					}
 
