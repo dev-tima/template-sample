@@ -71,6 +71,68 @@
 		<div class="progress"></div>
 
 		<script type="module" src="app.js"></script>
+		<script>
+			(function () {
+				function getTotalSlides() {
+					try {
+						return document.querySelectorAll('.slide').length || 0;
+					} catch {
+						return 0;
+					}
+				}
+
+				function clampSlide(n) {
+					const total = getTotalSlides();
+					if (!Number.isFinite(n)) return null;
+					if (total <= 0) return Math.max(1, n);
+					return Math.min(Math.max(1, n), total);
+				}
+
+				function navigateToSlide(n) {
+					const clamped = clampSlide(n);
+					if (clamped == null) return;
+					var newHash = '#' + String(clamped);
+					if (window.location.hash !== newHash) {
+						try {
+							window.location.hash = newHash;
+						} catch (e) {
+							// ignore navigation errors
+						}
+					}
+				}
+
+				window.addEventListener('message', function (event) {
+					const data = event && event.data;
+					if (!data || typeof data !== 'object') return;
+
+					switch (data.type) {
+						case 'slideChange': {
+							if (typeof data.slideNumber === 'number') {
+								navigateToSlide(data.slideNumber);
+							}
+							break;
+						}
+						case 'goToSlide': {
+							const n = typeof data.index === 'number' ? data.index : data.slideNumber;
+							if (typeof n === 'number') navigateToSlide(n);
+							break;
+						}
+						case 'nextSlide': {
+							const current = parseInt(String(window.location.hash).replace('#', ''), 10) || 1;
+							navigateToSlide(current + 1);
+							break;
+						}
+						case 'previousSlide': {
+							const current = parseInt(String(window.location.hash).replace('#', ''), 10) || 1;
+							navigateToSlide(current - 1);
+							break;
+						}
+						default:
+							break;
+					}
+				});
+			})();
+		</script>
 		<!-- Copyright © 3000 Yours Truly, Famous Inc. -->
 	</body>
 </html>
