@@ -1,7 +1,7 @@
 import { marked } from "marked";
 
-export default function createContentSummarySlide(data, slideId) {
-  const summarys = data.summarys ? data.summarys.slice(0, 2) : [];
+export default function createContentsummarieslide(data, slideId) {
+  const summaries = data.summaries ? data.summaries.slice(0, 2) : [];
 
   return `
     <section class="slide content-summary-slide" id="${slideId}">
@@ -9,7 +9,7 @@ export default function createContentSummarySlide(data, slideId) {
         <div class="cs-slide-title-box">${marked.parse(data.title)}</div>
         <div class="cs-slide-header-box">${marked.parse(data.header)}</div>
         <div class="cs-slide-list-container">
-          ${summarys
+          ${summaries
             .map(
               (summary, idx) => `
             <div class="cs-slide-item">
@@ -17,7 +17,7 @@ export default function createContentSummarySlide(data, slideId) {
               <div class="cs-slide-text">${marked.parse(summary)}</div>
             </div>
             ${
-              idx < summarys.length - 1
+              idx < summaries.length - 1
                 ? `<div class="cs-slide-div"></div>`
                 : ""
             }
