@@ -6,9 +6,10 @@ export default function createImageGeneratorSlide(data, slideId) {
   const systemPrompt = data.systemPrompt || "";
   const placeholder = data.placeholder || "";
   const gameId = "presentation_" + Date.now();
+  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide image-generator-slide" id="${slideId}">
+    <section class="slide image-generator-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
       <div class="ig-container">
         <div class="ig-title-box">${marked.parse(title)}</div>
 

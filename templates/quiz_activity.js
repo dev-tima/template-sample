@@ -4,6 +4,7 @@ export default function createQuizActivitySlide(data, slideId) {
   const question = data.question || "Question text";
   const choices = data.choices || [];
   const correctAnswer = data.correctAnswer || 0;
+  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   // Generate inline script that will execute when the HTML is inserted
   const scriptContent = `
@@ -80,7 +81,7 @@ export default function createQuizActivitySlide(data, slideId) {
   `;
 
   return `
-    <section class="slide canva-quiz-activity-slide" id="${slideId}">
+    <section class="slide canva-quiz-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
       <div class="quiz-slide-container">
         <div class="quiz-slide-title-box">
           ${marked.parse(data.title || "Quiz Time!")}

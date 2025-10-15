@@ -11,9 +11,10 @@ export default function createTextGeneratorSlide(data, slideId) {
     data.inputPlaceholder || "Enter your prompt here...";
   const outputPlaceholder =
     data.outputPlaceholder || "Your generated output will appear here...";
+  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide text-generator-slide" id="${slideId}">
+    <section class="slide text-generator-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
       <div class="tg-container">
         <div class="tg-title-box">${marked.parse(title)}</div>
 

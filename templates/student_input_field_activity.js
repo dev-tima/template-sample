@@ -3,6 +3,7 @@ import { marked } from "marked";
 export default function createStudentInputFieldActivitySlide(data, slideId) {
   const title = data.title || "Student Feedback";
   const questions = data.questions || [];
+  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   // Generate unique IDs for each question
   const questionsWithIds = questions.map((q, index) => ({
@@ -177,7 +178,7 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
   };
 
   return `
-    <section class="slide student-input-activity-slide" id="${slideId}">
+    <section class="slide student-input-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
       <div class="activity-container">
         <div class="activity-title-box">
           ${marked.parse(title)}

@@ -10,9 +10,10 @@ export default function createChatActivitySlide(data, slideId) {
     "You are a helpful educational tutor. Explain concepts clearly and encourage students to think critically. Ask guiding questions to help students discover answers themselves.";
   const placeholder =
     data.placeholder || "Ask me anything about today's lesson...";
+  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide chat-activity-slide" id="${slideId}">
+    <section class="slide chat-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
       <div class="act-container">
         <div class="act-title-box">${marked.parse(title)}</div>
 
