@@ -109,9 +109,7 @@ export default function createImageGeneratorSlide(data, slideId) {
               }
 
               if (!apiToken) {
-                throw new Error(
-                  'API token not found. Please set it in localStorage with key "authToken"'
-                );
+                throw new Error('Please make sure you are logged in or try after publishing');
               }
 
               const headers = {
@@ -132,17 +130,13 @@ export default function createImageGeneratorSlide(data, slideId) {
               });
 
               if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                  errorData.error ||
-                    "API Error: " + response.status + " " + response.statusText
-                );
+                throw new Error("Oops, something went wrong please try again");
               }
 
               const data = await response.json();
 
               if (!data.success) {
-                throw new Error(data.error || "Image generation failed");
+                throw new Error("Oops, something went wrong please try again");
               }
 
               return data.image || null;

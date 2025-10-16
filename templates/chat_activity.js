@@ -128,7 +128,7 @@ export default function createChatActivitySlide(data, slideId) {
               }
 
               if (!apiToken) {
-                throw new Error('API token not found. Please set it in localStorage with key "authToken"');
+                throw new Error('Please make sure you are logged in or try after publishing');
               }
 
               const headers = {
@@ -149,10 +149,7 @@ export default function createChatActivitySlide(data, slideId) {
               });
 
               if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                  errorData.error || "API Error: " + response.status + " " + response.statusText
-                );
+                throw new Error("Oops, something went wrong please try again");
               }
 
               removeTypingIndicator(typingId);
@@ -187,7 +184,7 @@ export default function createChatActivitySlide(data, slideId) {
 
               } catch (error) {
                 console.error("Streaming error:", error);
-                throw new Error("Error receiving response: " + error.message);
+                throw new Error("Oops, something went wrong please try again");
               } finally {
                 isStreaming = false;
                 sendBtn.disabled = false;
