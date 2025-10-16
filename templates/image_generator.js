@@ -1,7 +1,12 @@
 import { marked } from "marked";
+import { wrapWithCorsProxy } from "../utils/url-helper.js";
 
 export default function createImageGeneratorSlide(data, slideId) {
   const apiUrl = "https://dev-ai-model.redbrick.ai/api/image-generator";
+  const bgImage = wrapWithCorsProxy('https://store.redbrick.land/prod/user-assets/43578d3e-1d56-4d98-a47e-6e9799c023b6/content-bg_1760594211431.png');
+
+  // Determine if we're in dev mode for inline script (to wrap API response image URLs)
+  const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
   const title = data.title || "AI Image Generator";
   const systemPrompt = data.systemPrompt || "";
   const placeholder = data.placeholder || "";
@@ -46,6 +51,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           const apiUrl = "${apiUrl}";
           const gameId = "${gameId}";
           const systemPrompt = ${JSON.stringify(systemPrompt)};
+          const isDev = ${isDev};
 
           // Capture authToken from URL immediately on page load
           (function captureAuthToken() {
@@ -144,7 +150,11 @@ export default function createImageGeneratorSlide(data, slideId) {
 
             function displayImage(url, prompt) {
               const img = document.getElementById("generatedImage-" + slideId);
-              img.src = url;
+              // Wrap with CORS proxy in dev mode
+              const wrappedUrl = isDev && url && !url.includes('fonts.googleapis.com') && !url.startsWith('https://corsproxy.io/?')
+                ? 'https://corsproxy.io/?' + url
+                : url;
+              img.src = wrappedUrl;
               img.alt = prompt;
               document.getElementById("result-" + slideId).classList.add("active");
             }
@@ -186,7 +196,7 @@ export default function createImageGeneratorSlide(data, slideId) {
           justify-content: center;
           padding: 0;
           line-height: 1.08;
-          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-image: url('${bgImage}');
           background-size: cover;
           background-position: center;
           font-family: "Alan Sans", sans-serif;

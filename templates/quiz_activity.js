@@ -1,6 +1,8 @@
 import { marked } from "marked";
+import { wrapWithCorsProxy } from "../utils/url-helper.js";
 
 export default function createQuizActivitySlide(data, slideId) {
+  const bgImage = wrapWithCorsProxy('https://store.redbrick.land/prod/user-assets/43578d3e-1d56-4d98-a47e-6e9799c023b6/content-bg_1760594211431.png');
   const question = data.question || "Question text";
   const choices = data.choices || [];
   const correctAnswer = data.correctAnswer || 0;
@@ -115,7 +117,7 @@ export default function createQuizActivitySlide(data, slideId) {
           justify-content: center;
           padding: 0;
           line-height: 1.08;
-          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-image: url('${bgImage}');
           background-size: cover;
           background-position: center;
           font-family: "Alan Sans", sans-serif;

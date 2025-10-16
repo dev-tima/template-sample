@@ -34,6 +34,13 @@
       }
     },
     {
+      "type": "title_and_content",
+      "data": {
+        "title": "Before and After - AI Enhancement",
+        "content": "**Student's Original Idea:** *\"I want to write about my dog playing in the park\"*\n\n**First Draft:** *My dog runs fast He likes to play In the park*\n\n**After AI Collaboration:** *Golden fur flying like sunshine, Paws drumming earth's ancient rhythm, My dog dances through morning grass— Pure joy unleashed, Teaching me what happiness Looks like on four legs.*\n\n**Key Improvement:** Added vivid imagery, rhythm, and emotional depth while keeping the student's original idea!"
+      }
+    },
+    {
       "type": "canva_keyword_circle",
       "data": {
         "title": "Newton's Three Laws of Motion",

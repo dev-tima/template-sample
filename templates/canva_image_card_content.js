@@ -1,6 +1,9 @@
 import { marked } from "marked";
+import { wrapWithCorsProxy } from "../utils/url-helper.js";
 
 export default function createImageCardContentSlide(data, slideId) {
+  const bgImage = wrapWithCorsProxy('https://store.redbrick.land/prod/user-assets/43578d3e-1d56-4d98-a47e-6e9799c023b6/content-bg_1760594211431.png');
+
   return `
     <section class="slide image-card-content-slide" id="${slideId}">
       <div class="icc-slide-container">
@@ -8,7 +11,7 @@ export default function createImageCardContentSlide(data, slideId) {
         <div class="icc-slide-row">
           <div class="icc-slide-image-card">
             <div class="icc-slide-image-wrapper">
-              <img src="${data.imageUrl1}" alt="slide image 1" />
+              <img src="${wrapWithCorsProxy(data.imageUrl1)}" alt="slide image 1" />
             </div>
             <div class="icc-slide-card-content">
               <div class="icc-slide-subtitle">${marked.parse(
@@ -21,7 +24,7 @@ export default function createImageCardContentSlide(data, slideId) {
           </div>
           <div class="icc-slide-image-card">
             <div class="icc-slide-image-wrapper">
-              <img src="${data.imageUrl2}" alt="slide image 2" />
+              <img src="${wrapWithCorsProxy(data.imageUrl2)}" alt="slide image 2" />
             </div>
             <div class="icc-slide-card-content">
               <div class="icc-slide-subtitle">${marked.parse(
@@ -39,7 +42,7 @@ export default function createImageCardContentSlide(data, slideId) {
         @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
 
         .image-card-content-slide {
-          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-image: url('${bgImage}');
           background-size: cover;
           background-position: center;
           font-family: "Alan Sans", sans-serif;

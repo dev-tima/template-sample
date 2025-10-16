@@ -1,6 +1,8 @@
 import { marked } from "marked";
+import { wrapWithCorsProxy } from "../utils/url-helper.js";
 
 export default function createTitleSlide(data, slideId) {
+  const bgImage = wrapWithCorsProxy('https://store.redbrick.land/prod/user-assets/43578d3e-1d56-4d98-a47e-6e9799c023b6/content-bg_1760594211431.png');
   return `
     <section class="slide canva-title-slide" id="${slideId}">
       <div class="ct-slide-container">
@@ -27,7 +29,7 @@ export default function createTitleSlide(data, slideId) {
           justify-content: center;
           padding: 0;
           line-height: 1.08;
-          background-image: url('https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png');
+          background-image: url('${bgImage}');
           background-size: cover;
           background-position: center;
           font-family: "Alan Sans", sans-serif;
