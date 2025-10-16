@@ -10,10 +10,9 @@ export default function createChatActivitySlide(data, slideId) {
     "You are a helpful educational tutor. Explain concepts clearly and encourage students to think critically. Ask guiding questions to help students discover answers themselves.";
   const placeholder =
     data.placeholder || "Ask me anything about today's lesson...";
-  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide chat-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
+    <section class="slide chat-activity-slide" id="${slideId}">
       <div class="act-container">
         <div class="act-title-box">${marked.parse(title)}</div>
 
@@ -270,12 +269,19 @@ export default function createChatActivitySlide(data, slideId) {
       </script>
 
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .chat-activity-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.08;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
 
         .act-container {

@@ -18,12 +18,19 @@ export default function createTitleSlide(data, slideId) {
         </div>
       </div>
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .canva-title-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.08;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
         .ct-slide-container {
           width: 75%;
@@ -55,7 +62,7 @@ export default function createTitleSlide(data, slideId) {
           font-size: 200%;
           font-weight: 700;
           text-align: center;
-          margin-top: 3%
+          margin-top: 3%;
         }
         .ct-slide-subtitle-box {
           display: flex;

@@ -11,10 +11,9 @@ export default function createTextGeneratorSlide(data, slideId) {
     data.inputPlaceholder || "Enter your prompt here...";
   const outputPlaceholder =
     data.outputPlaceholder || "Your generated output will appear here...";
-  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide text-generator-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
+    <section class="slide text-generator-slide" id="${slideId}">
       <div class="tg-container">
         <div class="tg-title-box">${marked.parse(title)}</div>
 
@@ -195,12 +194,19 @@ export default function createTextGeneratorSlide(data, slideId) {
       </script>
 
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .text-generator-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.08;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
 
         .tg-container {

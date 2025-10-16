@@ -3,7 +3,6 @@ import { marked } from "marked";
 export default function createStudentInputFieldActivitySlide(data, slideId) {
   const title = data.title || "Student Feedback";
   const questions = data.questions || [];
-  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   // Generate unique IDs for each question
   const questionsWithIds = questions.map((q, index) => ({
@@ -178,7 +177,7 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
   };
 
   return `
-    <section class="slide student-input-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
+    <section class="slide student-input-activity-slide" id="${slideId}">
       <div class="activity-container">
         <div class="activity-title-box">
           ${marked.parse(title)}
@@ -196,12 +195,19 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
       </div>
 
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .student-input-activity-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.2;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
 
         .activity-container {

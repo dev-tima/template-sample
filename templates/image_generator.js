@@ -6,10 +6,9 @@ export default function createImageGeneratorSlide(data, slideId) {
   const systemPrompt = data.systemPrompt || "";
   const placeholder = data.placeholder || "";
   const gameId = "presentation_" + Date.now();
-  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   return `
-    <section class="slide image-generator-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
+    <section class="slide image-generator-slide" id="${slideId}">
       <div class="ig-container">
         <div class="ig-title-box">${marked.parse(title)}</div>
 
@@ -184,12 +183,19 @@ export default function createImageGeneratorSlide(data, slideId) {
       </script>
 
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .image-generator-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.08;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
 
         .ig-container {

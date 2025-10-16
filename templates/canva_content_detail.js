@@ -23,7 +23,14 @@ export default function createContentDetailSlide(data, slideId) {
         </div>
       </div>
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .content-detail-slide {
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -92,7 +99,7 @@ export default function createContentDetailSlide(data, slideId) {
         }
         .cd-slide-text {
           display: flex;
-          width: 100%:
+          width: 100%;
           font-size: 75%;
           font-weight: 500;
         }

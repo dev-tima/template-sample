@@ -1,9 +1,7 @@
 {
   "title": "Introduction to Physics - Forces and Motion",
   "globalSettings": {
-    "ratio": "16/9",
-    "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-    "background": "#F5F5F5"
+    "ratio": "16/9"
   },
   "slides": [
     {
@@ -13,9 +11,7 @@
         "title": "Forces and Motion",
         "subtitle": "Understanding the World Around Us",
         "footer": "Dr. Sarah Johnson"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png"
+      }
     },
     {
       "type": "canva_objective",
@@ -26,9 +22,7 @@
           "Learn about different types of forces in nature",
           "Apply physics concepts to real-world examples"
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_picture_with_topic",
@@ -37,9 +31,7 @@
         "topic": "Physics is the science that studies matter, energy, and their interactions. It helps us understand how the universe works, from the smallest particles to the largest galaxies.",
         "keywords": ["Matter", "Energy", "Forces"],
         "imageUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_keyword_circle",
@@ -59,9 +51,7 @@
             "description": "For every action, there is an equal and opposite reaction."
           }
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_image_card_content",
@@ -73,9 +63,7 @@
         "imageUrl2": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop",
         "subtitle2": "Friction Force",
         "content2": "The force that opposes motion between surfaces in contact. It can be static (preventing motion) or kinetic (opposing ongoing motion)."
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_content_detail",
@@ -87,9 +75,7 @@
           "Sports: Athletes use physics principles to improve performance - projectile motion in basketball, friction in running",
           "Technology: Smartphones, computers, and GPS systems all rely on physics principles like electromagnetism and relativity"
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_image_card_content",
@@ -101,9 +87,7 @@
         "imageUrl2": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
         "subtitle2": "Acceleration",
         "content2": "The rate of change of velocity. When you press the gas pedal, you accelerate. When you brake, you decelerate (negative acceleration)."
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_content_detail",
@@ -116,9 +100,7 @@
           "Substitute known values and solve for the unknown",
           "Check if your answer makes sense in the real world"
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_content_summary",
@@ -129,17 +111,13 @@
           "Newton's Three Laws of Motion govern how objects move and interact with forces in our universe",
           "Different types of forces (gravity, friction, electromagnetic) affect motion in various ways, and understanding these helps us explain everyday phenomena"
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_title_qna",
       "data": {
         "title": "Questions & Discussion Time"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_homework_square",
@@ -160,9 +138,7 @@
           }
         ],
         "footer": "Due next Monday - bring questions to class!"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "image_generator",
@@ -170,9 +146,7 @@
         "title": "AI Image Generator",
         "systemPrompt": "You are an AI image generator that creates high-quality educational illustrations based on text descriptions. Generate clear, engaging images suitable for a classroom setting.",
         "placeholder": "Describe the educational image you want to generate... (e.g., 'A diagram showing Newton's Three Laws of Motion with simple illustrations')"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "quiz_activity",
@@ -181,9 +155,7 @@
         "question": "According to Newton's Second Law, what is the relationship between force, mass, and acceleration?",
         "choices": ["F = m + a", "F = ma", "F = m / a", "F = m - a"],
         "correctAnswer": 1
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "chat_activity",
@@ -191,9 +163,7 @@
         "title": "Chat with Your AI Physics Tutor",
         "systemPrompt": "You are a helpful physics tutor specializing in Forces and Motion. Answer students' questions clearly and encourage their curiosity. Use real-world examples to illustrate Newton's Laws and force concepts. Be patient and adapt your explanations to the student's level of understanding.",
         "placeholder": "Ask me anything about Forces and Motion..."
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "text_generator",
@@ -202,9 +172,7 @@
         "systemPrompt": "You are a helpful physics educator. When given a topic or concept, create a clear, engaging explanation with real-world examples. Make the content educational and easy to understand for students learning physics.",
         "inputPlaceholder": "Enter a physics topic or concept you'd like explained (e.g., 'Explain momentum using a car crash example')...",
         "outputPlaceholder": "Your generated explanation will appear here..."
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "student_input_field_activity",
@@ -248,9 +216,7 @@
             "question": "What topic would you like to explore more in our next class?"
           }
         ]
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     },
     {
       "type": "canva_title_end",
@@ -258,9 +224,7 @@
         "title": "Great Work Today!",
         "subtitle": "Physics is all around us - keep observing and questioning!  \nSee you next class!",
         "footer": "Dr. Sarah Johnson"
-      },
-      "font": "https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap",
-      "background": "https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png"
+      }
     }
   ]
 }

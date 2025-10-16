@@ -4,7 +4,6 @@ export default function createQuizActivitySlide(data, slideId) {
   const question = data.question || "Question text";
   const choices = data.choices || [];
   const correctAnswer = data.correctAnswer || 0;
-  const background = data.background || "https://corsproxy.io/?https://i.ibb.co/MDpwtB2R/intro-bg.png";
 
   // Generate inline script that will execute when the HTML is inserted
   const scriptContent = `
@@ -81,7 +80,7 @@ export default function createQuizActivitySlide(data, slideId) {
   `;
 
   return `
-    <section class="slide canva-quiz-activity-slide" id="${slideId}" style="background-image: url('${background}'); background-size: cover; background-position: center;">
+    <section class="slide canva-quiz-activity-slide" id="${slideId}">
       <div class="quiz-slide-container">
         <div class="quiz-slide-title-box">
           ${marked.parse(data.title || "Quiz Time!")}
@@ -107,12 +106,19 @@ export default function createQuizActivitySlide(data, slideId) {
         </div>
       </div>
       <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+
         .canva-quiz-activity-slide {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           line-height: 1.08;
+          background-image: url('https://corsproxy.io/?https://i.ibb.co/XZbqydhC/content-bg.png');
+          background-size: cover;
+          background-position: center;
+          font-family: "Alan Sans", sans-serif;
         }
         .quiz-slide-container {
           width: 85%;
