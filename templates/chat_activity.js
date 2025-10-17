@@ -50,14 +50,45 @@ export default function createChatActivitySlide(data, slideId) {
           let isStreaming = false;
 
           // Capture authToken from URL immediately on page load
-          (function captureAuthToken() {
+          (function captureContext() {
             const params = new URLSearchParams(window.location.search);
             const authToken = params.get('authToken');
-
-            if (authToken) {
-              window.__authToken = authToken;
-            }
+            const lessonId = params.get('lessonId');
+            if (authToken) window.__authToken = authToken;
+            if (lessonId) window.__lessonId = lessonId;
           })();
+
+          const lessonIdFromWindow = (typeof window !== 'undefined' && window.__lessonId) || null;
+          function getLessonId() {
+            try {
+              const params = new URLSearchParams(window.location.search);
+              return params.get('lessonId') || lessonIdFromWindow;
+            } catch (e) { return lessonIdFromWindow; }
+          }
+
+          async function logActivity(activityType, activityData) {
+            let apiToken = window.__authToken;
+            if (!apiToken) {
+              try { apiToken = localStorage.getItem('authToken'); } catch (e) {}
+            }
+            if (!apiToken) return;
+
+            const payload = {
+              lessonId: getLessonId(),
+              slideId: slideId,
+              activityType,
+              activityData: JSON.stringify(activityData || {})
+            };
+
+            try {
+              const res = await fetch('https://dev-api-gateway.redbrick.ai/v1/edu/activities/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + apiToken },
+                body: JSON.stringify(payload)
+              });
+              // ignore failures silently
+            } catch (e) { /* ignore */ }
+          }
 
           // Wait for DOM to be ready
           if (document.readyState === 'loading') {
@@ -107,7 +138,7 @@ export default function createChatActivitySlide(data, slideId) {
               sendBtn.disabled = true;
 
               try {
-                await sendMessageToAPI(systemPrompt, conversationHistory, typingId);
+                await sendMessageToAPI(systemPrompt, conversationHistory, typingId, userMessage);
               } catch (error) {
                 removeTypingIndicator(typingId);
                 addMessage("error", error.message);
@@ -116,7 +147,7 @@ export default function createChatActivitySlide(data, slideId) {
               }
             }
 
-            async function sendMessageToAPI(systemPrompt, messages, typingId) {
+            async function sendMessageToAPI(systemPrompt, messages, typingId, lastUserMessage) {
               // Get auth token from global variable (captured on page load)
               // Fallback to localStorage for dev mode (when not in credentialless iframe)
               let apiToken = window.__authToken;
@@ -183,6 +214,10 @@ export default function createChatActivitySlide(data, slideId) {
 
                 // Add complete message to conversation history
                 conversationHistory.push({ role: "assistant", content: fullResponse });
+                logActivity('chat_interaction', {
+                  userMessage: lastUserMessage,
+                  assistantMessage: fullResponse
+                });
 
               } catch (error) {
                 console.error("Streaming error:", error);
@@ -263,6 +298,35 @@ export default function createChatActivitySlide(data, slideId) {
               const messagesContainer = document.getElementById("messages-" + slideId);
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
+            (async function hydrateFromActivities() {
+              let apiToken = window.__authToken;
+              if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+              const lessonId = getLessonId();
+              if (!apiToken || !lessonId) return;
+
+              try {
+                const url = new URL('https://dev-api-gateway.redbrick.ai/v1/edu/activities/student');
+                url.searchParams.set('lessonId', lessonId);
+                url.searchParams.set('page', '1');
+                url.searchParams.set('limit', '200');
+                const res = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + apiToken } });
+                if (!res.ok) return;
+                const data = await res.json();
+                const acts = Array.isArray(data.activities) ? data.activities : [];
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'chat_interaction');
+                // sort by createdAt
+                mine.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                for (const a of mine) {
+                  try {
+                    const d = JSON.parse(a.activityData || '{}');
+                    if (d.userMessage) addMessage('user', String(d.userMessage));
+                    if (d.assistantMessage) addMessage('ai', String(d.assistantMessage));
+                  } catch {}
+                }
+              } catch (e) {
+                // ignore
+              }
+            })();
           }
         })();
       </script>

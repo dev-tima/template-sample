@@ -44,14 +44,40 @@ export default function createTextGeneratorSlide(data, slideId) {
           let isGenerating = false;
 
           // Capture authToken from URL immediately on page load
-          (function captureAuthToken() {
+          (function captureContext() {
             const params = new URLSearchParams(window.location.search);
             const authToken = params.get('authToken');
-
-            if (authToken) {
-              window.__authToken = authToken;
-            }
+            const lessonId = params.get('lessonId');
+            if (authToken) window.__authToken = authToken;
+            if (lessonId) window.__lessonId = lessonId;
           })();
+
+          const lessonIdFromWindow = (typeof window !== 'undefined' && window.__lessonId) || null;
+          function getLessonId() {
+            try {
+              const params = new URLSearchParams(window.location.search);
+              return params.get('lessonId') || lessonIdFromWindow;
+            } catch (e) { return lessonIdFromWindow; }
+          }
+
+          async function logActivity(activityType, activityData) {
+            let apiToken = window.__authToken;
+            if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+            if (!apiToken) return;
+            const payload = {
+              lessonId: getLessonId(),
+              slideId: slideId,
+              activityType,
+              activityData: JSON.stringify(activityData || {})
+            };
+            try {
+              await fetch('https://dev-api-gateway.redbrick.ai/v1/edu/activities/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + apiToken },
+                body: JSON.stringify(payload)
+              });
+            } catch (e) {}
+          }
 
           // Wait for DOM to be ready
           if (document.readyState === 'loading') {
@@ -179,6 +205,10 @@ export default function createTextGeneratorSlide(data, slideId) {
                     contentDiv.textContent = fullResponse;
                   }
                 }
+                logActivity('text_generate', {
+                  prompt: userPrompt,
+                  output: fullResponse
+                });
               } catch (error) {
                 console.error("Streaming error:", error);
                 throw new Error("Oops, something went wrong please try again");
@@ -188,6 +218,47 @@ export default function createTextGeneratorSlide(data, slideId) {
                 generateBtn.textContent = "Generate";
               }
             }
+
+            (async function hydrateFromActivities() {
+              let apiToken = window.__authToken;
+              if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+              const lessonId = getLessonId();
+              if (!apiToken || !lessonId) return;
+              try {
+                const url = new URL('https://dev-api-gateway.redbrick.ai/v1/edu/activities/student');
+                url.searchParams.set('lessonId', lessonId);
+                url.searchParams.set('page', '1');
+                url.searchParams.set('limit', '200');
+                const res = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + apiToken } });
+                if (!res.ok) return;
+                const data = await res.json();
+                const acts = Array.isArray(data.activities) ? data.activities : [];
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'text_generate');
+                if (!mine.length) return;
+                // Use the latest one
+                mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                const latest = mine[0];
+                let payload = {};
+                try { payload = JSON.parse(latest.activityData || '{}'); } catch {}
+                const outputText = String(payload.output || '');
+                const outputBox = document.getElementById('output-' + slideId);
+                if (outputBox) {
+                  outputBox.style.display = 'flex';
+                  outputBox.style.alignItems = 'center';
+                  outputBox.style.justifyContent = 'center';
+                  outputBox.innerHTML = '<div class="tg-output-content"></div>';
+                  const div = document.querySelector('#output-' + slideId + ' .tg-output-content');
+                  if (div) div.textContent = outputText;
+                }
+                // Optionally restore prompt
+                if (payload.prompt) {
+                  const promptInput = document.getElementById('promptInput-' + slideId);
+                  if (promptInput) promptInput.value = String(payload.prompt);
+                }
+              } catch (e) {
+                // ignore
+              }
+            })();
           }
         })();
       </script>

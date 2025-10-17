@@ -26,6 +26,44 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
           return;
         }
 
+        // Capture context from URL
+        (function captureContext() {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const authToken = params.get('authToken');
+            const lessonId = params.get('lessonId');
+            if (authToken) window.__authToken = authToken;
+            if (lessonId) window.__lessonId = lessonId;
+          } catch (e) {}
+        })();
+
+        const lessonIdFromWindow = (typeof window !== 'undefined' && window.__lessonId) || null;
+        function getLessonId() {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('lessonId') || lessonIdFromWindow;
+          } catch (e) { return lessonIdFromWindow; }
+        }
+
+        async function logActivity(activityType, activityData) {
+          let apiToken = window.__authToken;
+          if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+          if (!apiToken) return;
+          const payload = {
+            lessonId: getLessonId(),
+            slideId: '${slideId}',
+            activityType,
+            activityData: JSON.stringify(activityData || {})
+          };
+          try {
+            await fetch('https://dev-api-gateway.redbrick.ai/v1/edu/activities/log', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + apiToken },
+              body: JSON.stringify(payload)
+            });
+          } catch (e) {}
+        }
+
         // Initialize star ratings
         const starContainers = slide.querySelectorAll('.star-rating-container');
         console.log('Found', starContainers.length, 'star rating containers');
@@ -104,6 +142,8 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
 
             const shareText = '=== Student Feedback ===\\n\\n' + formattedResponses;
 
+            logActivity('student_input', { responses });
+
             // Try to copy to clipboard
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(shareText)
@@ -131,6 +171,73 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
             }
           });
         }
+
+        (async function hydrateFromActivities() {
+          let apiToken = window.__authToken;
+          if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+          const lessonId = getLessonId();
+          if (!apiToken || !lessonId) return;
+          try {
+            const url = new URL('https://dev-api-gateway.redbrick.ai/v1/edu/activities/student');
+            url.searchParams.set('lessonId', lessonId);
+            url.searchParams.set('page', '1');
+            url.searchParams.set('limit', '100');
+            const res = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + apiToken } });
+            if (!res.ok) return;
+            const data = await res.json();
+            const acts = Array.isArray(data.activities) ? data.activities : [];
+            // pick the latest submission for this slide
+            const mine = acts.filter(a => a.slideId === '${slideId}' && a.activityType === 'student_input');
+            if (!mine.length) return;
+            mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const latest = mine[0];
+            let payload = {};
+            try { payload = JSON.parse(latest.activityData || '{}'); } catch {}
+            const responses = Array.isArray(payload.responses) ? payload.responses : [];
+
+            const questions = ${JSON.stringify(questionsWithIds)};
+            questions.forEach((q, i) => {
+              const resp = responses[i];
+              if (!resp) return;
+              if (q.type === 'text') {
+                const textarea = slide.querySelector('#' + q.id);
+                if (textarea) {
+                  textarea.value = String(resp.answer || '');
+                  textarea.setAttribute('disabled', 'true');
+                }
+              } else if (q.type === 'rating') {
+                const hiddenInput = slide.querySelector('#' + q.id);
+                const container = hiddenInput ? hiddenInput.closest('.star-rating-container') : null;
+                const stars = container ? container.querySelectorAll('.star') : null;
+                const val = Number(resp.answer || '0');
+                if (hiddenInput) hiddenInput.value = String(val);
+                if (container) container.setAttribute('data-rating', String(val));
+                if (stars && stars.length) {
+                  // highlight stars
+                  stars.forEach((star, index) => {
+                    if (index < val) {
+                      star.classList.add('active');
+                      star.innerHTML = '★';
+                    } else {
+                      star.classList.remove('active');
+                      star.innerHTML = '☆';
+                    }
+                    // Disable interactions
+                    star.style.pointerEvents = 'none';
+                  });
+                }
+              }
+            });
+
+            if (shareBtn) {
+              shareBtn.disabled = true;
+              shareBtn.textContent = 'Submitted';
+              shareBtn.style.opacity = '0.8';
+            }
+          } catch (e) {
+            // ignore
+          }
+        })();
       }
 
       if (document.readyState === 'loading') {
