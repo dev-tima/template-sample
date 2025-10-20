@@ -52,16 +52,40 @@ export default function createImageGeneratorSlide(data, slideId) {
           const gameId = "${gameId}";
           const systemPrompt = ${JSON.stringify(systemPrompt)};
           const isDev = ${isDev};
-
           // Capture authToken from URL immediately on page load
-          (function captureAuthToken() {
+          (function captureContext() {
             const params = new URLSearchParams(window.location.search);
             const authToken = params.get('authToken');
-
-            if (authToken) {
-              window.__authToken = authToken;
-            }
+            const lessonId = params.get('lessonId');
+            if (authToken) window.__authToken = authToken;
+            if (lessonId) window.__lessonId = lessonId;
           })();
+
+          function getLessonId() {
+            try {
+              const params = new URLSearchParams(window.location.search);
+              return params.get('lessonId') || (typeof window !== 'undefined' ? window.__lessonId : null);
+            } catch (e) { return (typeof window !== 'undefined' ? window.__lessonId : null); }
+          }
+
+          async function logActivity(activityType, activityData) {
+            let apiToken = window.__authToken;
+            if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+            if (!apiToken) return;
+            const payload = {
+              lessonId: getLessonId(),
+              slideId: slideId,
+              activityType,
+              activityData: JSON.stringify(activityData || {})
+            };
+            try {
+              await fetch('https://dev-api-gateway.redbrick.ai/v1/edu/activities/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + apiToken },
+                body: JSON.stringify(payload)
+              });
+            } catch (e) {}
+          }
 
           // Wait for DOM to be ready
           if (document.readyState === 'loading') {
@@ -93,13 +117,64 @@ export default function createImageGeneratorSlide(data, slideId) {
 
               try {
                 const imageUrl = await generateImageFromAPI(prompt, apiUrl, gameId, systemPrompt);
-                displayImage(imageUrl, prompt);
+                const storedUrl = await persistImageUrlToAssets(imageUrl, prompt).catch(() => imageUrl);
+                displayImage(storedUrl, prompt);
+                // Log image generation with stored asset URL (or original on fallback)
+                logActivity('image_generate', {
+                  prompt: prompt,
+                  imageUrl: storedUrl
+                });
               } catch (error) {
                 showError(error.message);
               } finally {
                 hideLoading();
               }
             });
+
+            async function persistImageUrlToAssets(sourceUrl, prompt) {
+              // fetch the image as Blob
+              let blob;
+              try {
+                let resp = await fetch(sourceUrl, { mode: 'cors' });
+                if (!resp.ok) throw new Error('Fetch failed');
+                blob = await resp.blob();
+              } catch (e1) {
+                try {
+                  const proxied = 'https://corsproxy.io/?' + sourceUrl;
+                  const resp2 = await fetch(proxied, { mode: 'cors' });
+                  if (!resp2.ok) throw new Error('Proxy fetch failed');
+                  blob = await resp2.blob();
+                } catch (e2) {
+                  console.warn('Could not fetch generated image as blob; using original URL', e2);
+                  throw e2;
+                }
+              }
+
+              const token = (function() {
+                let t = window.__authToken;
+                if (!t) { try { t = localStorage.getItem('authToken'); } catch (e) {} }
+                return t;
+              })();
+              if (!token) throw new Error('Missing auth token for asset upload');
+
+              const filenameBase = 'generated-image-' + Date.now();
+              const filename = filenameBase + '.png';
+
+              const presignRes = await fetch('https://dev-api-gateway.redbrick.ai/v1/utils/upload-file', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ type: 'userAssets', filename, gameId })
+              });
+              if (!presignRes.ok) throw new Error('Failed to get upload URL');
+              const presignData = await presignRes.json();
+              const { uploadUrl, downloadUrl } = (presignData && presignData.data) || {};
+              if (!uploadUrl || !downloadUrl) throw new Error('Invalid upload URL response');
+
+              const putRes = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': blob.type || 'image/png' }, body: blob });
+              if (!putRes.ok) throw new Error('Failed to upload image to asset store');
+
+              return downloadUrl;
+            }
 
             async function generateImageFromAPI(prompt, apiUrl, gameId, systemPrompt) {
               // Get auth token from global variable (captured on page load)
@@ -182,6 +257,40 @@ export default function createImageGeneratorSlide(data, slideId) {
             function hideResult() {
               document.getElementById("result-" + slideId).classList.remove("active");
             }
+
+            (async function hydrateFromActivities() {
+              let apiToken = window.__authToken;
+              if (!apiToken) { try { apiToken = localStorage.getItem('authToken'); } catch (e) {} }
+              const lessonId = getLessonId();
+              if (!apiToken || !lessonId) return;
+              try {
+                const url = new URL('https://dev-api-gateway.redbrick.ai/v1/edu/activities/student');
+                url.searchParams.set('lessonId', lessonId);
+                url.searchParams.set('page', '1');
+                url.searchParams.set('limit', '200');
+                const res = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + apiToken } });
+                if (!res.ok) return;
+                const data = await res.json();
+                const acts = Array.isArray(data.activities) ? data.activities : [];
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'image_generate');
+                if (!mine.length) return;
+                mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                const latest = mine[0];
+                let payload = {};
+                try { payload = JSON.parse(latest.activityData || '{}'); } catch {}
+                const urlStr = payload.imageUrl || '';
+                const promptStr = String(payload.prompt || '');
+                if (urlStr) {
+                  displayImage(String(urlStr), promptStr);
+                }
+                const promptInputEl = document.getElementById('prompt-' + slideId);
+                if (promptInputEl && promptStr) {
+                  promptInputEl.value = promptStr;
+                }
+              } catch (e) {
+                // ignore
+              }
+            })();
           }
         })();
       </script>

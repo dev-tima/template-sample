@@ -6,6 +6,11 @@ export default function createQuizActivitySlide(data, slideId) {
   const question = data.question || "Question text";
   const choices = data.choices || [];
   const correctAnswer = data.correctAnswer || 0;
+  const initialActivityFromData = {
+    selectedChoiceIndex: typeof data.selectedChoiceIndex === 'number' ? data.selectedChoiceIndex : (data._activity && typeof data._activity.selectedChoiceIndex === 'number' ? data._activity.selectedChoiceIndex : null),
+    correctAnswerIndex: typeof data.correctAnswerIndex === 'number' ? data.correctAnswerIndex : (data._activity && typeof data._activity.correctAnswerIndex === 'number' ? data._activity.correctAnswerIndex : null),
+    isCorrect: typeof data.studentAnswerCorrect === 'boolean' ? data.studentAnswerCorrect : (data._activity && typeof data._activity.isCorrect === 'boolean' ? data._activity.isCorrect : null)
+  };
 
   // Generate inline script that will execute when the HTML is inserted
   const scriptContent = `
@@ -30,6 +35,154 @@ export default function createQuizActivitySlide(data, slideId) {
         }
 
         let answered = false;
+        const initialActivity = ${JSON.stringify(initialActivityFromData)};
+
+        (function captureContext() {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const authToken = params.get('authToken');
+            const lessonId = params.get('lessonId');
+            if (authToken) window.__authToken = authToken;
+            if (lessonId) window.__lessonId = lessonId;
+          } catch (e) {}
+        })();
+
+        // Resolve lessonId: URL param > window.__lessonId
+        const lessonIdFromWindow = (typeof window !== 'undefined' && window.__lessonId) || null;
+        function getLessonId() {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const fromUrl = params.get('lessonId');
+            if (fromUrl) return fromUrl;
+          } catch (e) {}
+          return lessonIdFromWindow;
+        }
+
+        async function logActivity(activityType, activityData) {
+          // Get auth token from global variable or localStorage (dev fallback)
+          let apiToken = window.__authToken;
+          if (!apiToken) {
+            try { apiToken = localStorage.getItem('authToken'); } catch (e) {}
+          }
+          if (!apiToken) {
+            console.warn('Auth token not found; skipping activity log');
+            return;
+          }
+
+          const payload = {
+            lessonId: getLessonId(),
+            slideId: '${slideId}',
+            activityType,
+            activityData: JSON.stringify(activityData || {})
+          };
+
+          try {
+            const res = await fetch('https://dev-api-gateway.redbrick.ai/v1/edu/activities/log', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + apiToken
+              },
+              body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+              console.warn('Failed to log activity', res.status);
+            }
+          } catch (err) {
+            console.warn('Error logging activity', err);
+          }
+        }
+
+        async function hydrateFromActivity() {
+          if (initialActivity && initialActivity.selectedChoiceIndex !== null) {
+            try {
+              answered = true;
+              choiceElements.forEach(function(c) { c.classList.add('disabled'); });
+              let correctChoice = null;
+              choiceElements.forEach(function(c) {
+                if (parseInt(c.dataset.choiceIndex, 10) === initialActivity.correctAnswerIndex) {
+                  correctChoice = c;
+                }
+              });
+              choiceElements.forEach(function(c) {
+                const idx = parseInt(c.dataset.choiceIndex, 10);
+                if (idx === initialActivity.selectedChoiceIndex) {
+                  const isCorrect = c.dataset.correct === 'true';
+                  if (isCorrect) {
+                    c.classList.add('correct', 'selected');
+                  } else {
+                    c.classList.add('incorrect', 'selected');
+                    if (correctChoice) correctChoice.classList.add('correct');
+                  }
+                }
+              });
+              return; // skip API fetch if JSON provided data
+            } catch (e) {
+              console.warn('Failed applying initial activity from JSON, will attempt API', e);
+            }
+          }
+
+          let apiToken = window.__authToken;
+          if (!apiToken) {
+            try { apiToken = localStorage.getItem('authToken'); } catch (e) {}
+          }
+          if (!apiToken) {
+            console.warn('Auth token not found; skipping activity hydrate');
+            return;
+          }
+
+          const lessonId = getLessonId();
+          if (!lessonId) return;
+
+          const url = new URL('https://dev-api-gateway.redbrick.ai/v1/edu/activities/student');
+          url.searchParams.set('lessonId', lessonId);
+          url.searchParams.set('page', '1');
+          url.searchParams.set('limit', '100');
+
+          try {
+            const res = await fetch(url.toString(), {
+              method: 'GET',
+              headers: { 'Authorization': 'Bearer ' + apiToken }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const activities = Array.isArray(data.activities) ? data.activities : [];
+            const my = activities.find(a => a.slideId === '${slideId}' && a.activityType === 'quiz_answer');
+            if (!my) return;
+            let parsed = {};
+            try { parsed = JSON.parse(my.activityData || '{}'); } catch {}
+
+            const selectedIndex = typeof parsed.selectedChoiceIndex === 'number' ? parsed.selectedChoiceIndex : null;
+            const correctIndex = typeof parsed.correctAnswerIndex === 'number' ? parsed.correctAnswerIndex : null;
+            if (selectedIndex === null) return;
+
+            // Apply UI state
+            answered = true;
+            choiceElements.forEach(function(c) { c.classList.add('disabled'); });
+
+            let correctChoice = null;
+            choiceElements.forEach(function(c) {
+              if (parseInt(c.dataset.choiceIndex, 10) === correctIndex) {
+                correctChoice = c;
+              }
+            });
+
+            choiceElements.forEach(function(c) {
+              const idx = parseInt(c.dataset.choiceIndex, 10);
+              if (idx === selectedIndex) {
+                const isCorrect = c.dataset.correct === 'true';
+                if (isCorrect) {
+                  c.classList.add('correct', 'selected');
+                } else {
+                  c.classList.add('incorrect', 'selected');
+                  if (correctChoice) correctChoice.classList.add('correct');
+                }
+              }
+            });
+          } catch (e) {
+            console.warn('Failed to hydrate quiz activity', e);
+          }
+        }
 
         function onAnswerSelected(isCorrect, selectedChoice, correctChoice) {
           console.log('Answer selected. Correct?', isCorrect);
@@ -49,13 +202,16 @@ export default function createQuizActivitySlide(data, slideId) {
 
             answered = true;
             const isCorrect = this.dataset.correct === 'true';
+            const selectedIndex = parseInt(this.dataset.choiceIndex, 10);
 
             choiceElements.forEach(function(c) { c.classList.add('disabled'); });
 
             let correctChoice = null;
+            let correctIndex = null;
             choiceElements.forEach(function(c) {
               if (c.dataset.correct === 'true') {
                 correctChoice = c;
+                correctIndex = parseInt(c.dataset.choiceIndex, 10);
               }
             });
 
@@ -69,8 +225,16 @@ export default function createQuizActivitySlide(data, slideId) {
             }
 
             onAnswerSelected(isCorrect, this, correctChoice);
+
+            logActivity('quiz_answer', {
+              isCorrect: !!isCorrect,
+              selectedChoiceIndex: selectedIndex,
+              correctAnswerIndex: correctIndex
+            });
           });
         });
+
+        hydrateFromActivity();
       }
 
       if (document.readyState === 'loading') {
