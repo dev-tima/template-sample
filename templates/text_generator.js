@@ -38,6 +38,7 @@ export default function createTextGeneratorSlide(data, slideId) {
       <script>
         (function() {
           const slideId = "${slideId}";
+          const activityType = "text_generator";
           const apiUrl = "${apiUrl}";
           const defaultSystemPrompt = ${JSON.stringify(defaultSystemPrompt)};
 
@@ -205,7 +206,7 @@ export default function createTextGeneratorSlide(data, slideId) {
                     contentDiv.textContent = fullResponse;
                   }
                 }
-                logActivity('text_generate', {
+                logActivity(activityType, {
                   prompt: userPrompt,
                   output: fullResponse
                 });
@@ -233,7 +234,7 @@ export default function createTextGeneratorSlide(data, slideId) {
                 if (!res.ok) return;
                 const data = await res.json();
                 const acts = Array.isArray(data.activities) ? data.activities : [];
-                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'text_generate');
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === activityType);
                 if (!mine.length) return;
                 // Use the latest one
                 mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

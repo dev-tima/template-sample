@@ -26,6 +26,11 @@ export default function createQuizActivitySlide(data, slideId) {
           return;
         }
 
+        const activityType = 'quiz_activity';
+        const quizQuestion = ${JSON.stringify(question)};
+        const quizChoices = ${JSON.stringify(choices)};
+        const quizCorrectIndex = ${JSON.stringify(correctAnswer)};
+
         const choiceElements = slide.querySelectorAll('.quiz-choice');
         console.log('Found', choiceElements.length, 'quiz choices');
 
@@ -93,6 +98,16 @@ export default function createQuizActivitySlide(data, slideId) {
           }
         }
 
+        function normalizeText(t) {
+          try { return String(t || '').replace(/\s+/g, ' ').trim().toLowerCase(); } catch { return ''; }
+        }
+
+        function getDomChoicesText() {
+          try {
+            return Array.from(choiceElements).map(c => c.querySelector('.quiz-choice-text')?.innerText?.trim() || '');
+          } catch (e) { return []; }
+        }
+
         async function hydrateFromActivity() {
           if (initialActivity && initialActivity.selectedChoiceIndex !== null) {
             try {
@@ -147,14 +162,29 @@ export default function createQuizActivitySlide(data, slideId) {
             if (!res.ok) return;
             const data = await res.json();
             const activities = Array.isArray(data.activities) ? data.activities : [];
-            const my = activities.find(a => a.slideId === '${slideId}' && a.activityType === 'quiz_answer');
+            const my = activities.find(a => a.slideId === '${slideId}' && a.activityType === activityType);
             if (!my) return;
             let parsed = {};
             try { parsed = JSON.parse(my.activityData || '{}'); } catch {}
 
-            const selectedIndex = typeof parsed.selectedChoiceIndex === 'number' ? parsed.selectedChoiceIndex : null;
-            const correctIndex = typeof parsed.correctAnswerIndex === 'number' ? parsed.correctAnswerIndex : null;
-            if (selectedIndex === null) return;
+            let selectedIndex = (typeof parsed.selectedChoiceIndex === 'number' ? parsed.selectedChoiceIndex : null);
+            let correctIndex = (typeof parsed.correctAnswerIndex === 'number' ? parsed.correctAnswerIndex : null);
+
+            // Fallback: try to map using texts if indices are missing or out of range
+            const domChoices = getDomChoicesText();
+            const selectedText = parsed.selectedAnswerText || (typeof selectedIndex === 'number' ? (quizChoices?.[selectedIndex] ?? domChoices?.[selectedIndex]) : null);
+            const correctText = parsed.correctAnswerText || (typeof correctIndex === 'number' ? (quizChoices?.[correctIndex] ?? domChoices?.[correctIndex]) : null);
+
+            if ((selectedIndex === null || selectedIndex < 0 || selectedIndex >= domChoices.length) && selectedText) {
+              const needle = normalizeText(selectedText);
+              selectedIndex = domChoices.findIndex(t => normalizeText(t) === needle);
+            }
+            if ((correctIndex === null || correctIndex < 0 || correctIndex >= domChoices.length) && correctText) {
+              const needle = normalizeText(correctText);
+              correctIndex = domChoices.findIndex(t => normalizeText(t) === needle);
+            }
+
+            if (selectedIndex === null || selectedIndex < 0 || selectedIndex >= choiceElements.length) return;
 
             // Apply UI state
             answered = true;
@@ -226,10 +256,21 @@ export default function createQuizActivitySlide(data, slideId) {
 
             onAnswerSelected(isCorrect, this, correctChoice);
 
-            logActivity('quiz_answer', {
+            const selectedAnswerText = (quizChoices && quizChoices[selectedIndex] !== undefined)
+              ? quizChoices[selectedIndex]
+              : (this.querySelector('.quiz-choice-text')?.innerText?.trim() || '');
+            const correctAnswerText = (quizChoices && quizChoices[correctIndex] !== undefined)
+              ? quizChoices[correctIndex]
+              : (correctChoice?.querySelector('.quiz-choice-text')?.innerText?.trim() || '');
+
+            logActivity(activityType, {
+              question: quizQuestion,
+              choices: Array.isArray(quizChoices) && quizChoices.length ? quizChoices : getDomChoicesText(),
               isCorrect: !!isCorrect,
               selectedChoiceIndex: selectedIndex,
-              correctAnswerIndex: correctIndex
+              selectedAnswerText,
+              correctAnswerIndex: correctIndex,
+              correctAnswerText
             });
           });
         });
