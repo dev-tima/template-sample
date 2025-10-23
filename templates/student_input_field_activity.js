@@ -26,6 +26,8 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
           return;
         }
 
+        const activityType = 'student_input_field_activity';
+
         // Capture context from URL
         (function captureContext() {
           try {
@@ -142,7 +144,7 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
 
             const shareText = '=== Student Feedback ===\\n\\n' + formattedResponses;
 
-            logActivity('student_input', { responses });
+            logActivity(activityType, { responses });
 
             // Try to copy to clipboard
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -187,7 +189,7 @@ export default function createStudentInputFieldActivitySlide(data, slideId) {
             const data = await res.json();
             const acts = Array.isArray(data.activities) ? data.activities : [];
             // pick the latest submission for this slide
-            const mine = acts.filter(a => a.slideId === '${slideId}' && a.activityType === 'student_input');
+            const mine = acts.filter(a => a.slideId === '${slideId}' && a.activityType === activityType);
             if (!mine.length) return;
             mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             const latest = mine[0];

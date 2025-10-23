@@ -43,6 +43,7 @@ export default function createChatActivitySlide(data, slideId) {
       <script>
         (function() {
           const slideId = "${slideId}";
+          const activityType = "chat_activity";
           const apiUrl = "${apiUrl}";
           const defaultSystemPrompt = ${JSON.stringify(defaultSystemPrompt)};
 
@@ -214,7 +215,7 @@ export default function createChatActivitySlide(data, slideId) {
 
                 // Add complete message to conversation history
                 conversationHistory.push({ role: "assistant", content: fullResponse });
-                logActivity('chat_interaction', {
+                logActivity(activityType, {
                   userMessage: lastUserMessage,
                   assistantMessage: fullResponse
                 });
@@ -313,7 +314,7 @@ export default function createChatActivitySlide(data, slideId) {
                 if (!res.ok) return;
                 const data = await res.json();
                 const acts = Array.isArray(data.activities) ? data.activities : [];
-                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'chat_interaction');
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === activityType);
                 // sort by createdAt
                 mine.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                 for (const a of mine) {

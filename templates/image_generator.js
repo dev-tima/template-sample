@@ -48,6 +48,7 @@ export default function createImageGeneratorSlide(data, slideId) {
       <script>
         (function() {
           const slideId = "${slideId}";
+          const activityType = "image_generator";
           const apiUrl = "${apiUrl}";
           const gameId = "${gameId}";
           const systemPrompt = ${JSON.stringify(systemPrompt)};
@@ -120,7 +121,7 @@ export default function createImageGeneratorSlide(data, slideId) {
                 const storedUrl = await persistImageUrlToAssets(imageUrl, prompt).catch(() => imageUrl);
                 displayImage(storedUrl, prompt);
                 // Log image generation with stored asset URL (or original on fallback)
-                logActivity('image_generate', {
+                logActivity(activityType, {
                   prompt: prompt,
                   imageUrl: storedUrl
                 });
@@ -272,7 +273,7 @@ export default function createImageGeneratorSlide(data, slideId) {
                 if (!res.ok) return;
                 const data = await res.json();
                 const acts = Array.isArray(data.activities) ? data.activities : [];
-                const mine = acts.filter(a => a.slideId === slideId && a.activityType === 'image_generate');
+                const mine = acts.filter(a => a.slideId === slideId && a.activityType === activityType);
                 if (!mine.length) return;
                 mine.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 const latest = mine[0];
